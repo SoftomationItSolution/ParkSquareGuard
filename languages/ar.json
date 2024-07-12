@@ -1,0 +1,187 @@
+{
+    "exit_app": {
+        "exit_text": "اضغط مرة أخرى للخروج"
+    },
+    "allowed": {
+        "allowed": "مسموح",
+        "text": "دعونا ندخل الضيف إلى المجتمع",
+        "back_to_home": "العودة إلى المنزل"
+    },
+    "login": {
+        "login": "تسجيل الدخول",
+        "login_text": "* سوف نرسل OTP للتحقق",
+        "enter_mobile_number": "أدخل رقم الجوال",
+        "please_text": "مرحباً بالمستخدمين، يرجى تسجيل الدخول إلى حسابك",
+        "LOGIN": "تسجيل الدخول"
+    },
+    "otp": {
+        "receive_text": "لم تتلق؟",
+        "resend": "إعادة إرسال",
+        "verify": "يؤكد",
+        "please_wait": "انتظر من فضلك",
+        "please_text": "يرجى إدخال كلمة المرور لمرة واحدة (OTP) التي سنرسلها إليك على هاتفك المحمول رقم +91 1234567890",
+        "OTP_VERIFICATION": "التحقق من OTP"
+    },
+    "register": {
+        "please_text": "مرحباً بالمستخدمين، يرجى إنشاء حسابك",
+        "REGISTER": "يسجل",
+        "register": "يسجل",
+        "email_address": "عنوان البريد الإلكتروني",
+        "mobile_number": "رقم الهاتف المحمول",
+        "user_name": "اسم المستخدم"
+    },
+    "cab_entry": {
+        "cab_entry": "دخول الكابينة",
+        "continue": "يكمل",
+        "pickup_droupup": "الالتقاط/التجميع",
+        "enter_pickup_droupup": "أدخل الالتقاط/التجميع",
+        "cab_company": "شركة الكابينة",
+        "enter_delivery_cab_company": "أدخل شركة التوصيل الكابينة",
+        "enter_last_digit_cab": "أدخل آخر 4 أرقام من الكابينة",
+        "cab_driver_name": "اسم سائق الكابينة",
+        "enter_cab_driver_name": "أدخل اسم سائق سيارة الأجرة"
+    },
+    "chat": {
+        "type_here": "اكتب النص هنا...."
+    },
+    "confirm": {
+        "guest": "ضيف",
+        "visiting": "زيارة",
+        "gatepass": "ممر الشارع",
+        "confirm_send_in": "تأكيد وإرسال"
+    },
+    "confirm_send_notification": {
+        "guest_entry": "دخول الضيف",
+        "confirm_and_send_notification": "تأكيد وإرسال الإخطار",
+        "inside_time": "داخل الوقت",
+        "enter_inside_time": "أدخل الوقت الداخلي",
+        "visiting": "زيارة",
+        "enter_visiting": "أدخل الزيارة",
+        "guest_name": "اسم الضيف",
+        "enter_guest_name": "أدخل اسم الضيف"
+    },
+    "delivery_entry": {
+        "delivery_entry": "مدخل التسليم",
+        "continue": "يكمل",
+        "inside_time": "داخل الوقت",
+        "enter_inside_time": "أدخل الوقت الداخلي",
+        "delivery_company": "شركة توصيل",
+        "delivery_company_name": "اسم شركة التوصيل",
+        "phone_number": "رقم التليفون",
+        "enter_phone_number": "أدخل رقم الهاتف",
+        "deliveryman_name": "اسم مندوب التوصيل",
+        "enter_deliveryman_name": "أدخل اسم عامل التسليم"
+    },
+    "guest_entry": {
+        "guest_entry": "دخول الضيف",
+        "continue": "يكمل",
+        "inside_time": "داخل الوقت",
+        "enter_inside_time": "أدخل الوقت الداخلي",
+        "mobile_number": "رقم الهاتف المحمول",
+        "enter_mobile_number": "أدخل رقم الجوال",
+        "guest_name": "اسم الضيف",
+        "enter_guest_name": "أدخل اسم الضيف"
+    },
+    "home": {
+        "add_new_visitor": "إضافة زائر جديد",
+        "guest_entry": "دخول الضيف",
+        "cab_entry": "دخول الكابينة",
+        "delivery_entry": "مدخل التسليم",
+        "service_entry": "إدخال الخدمة",
+        "visitor_entry": "دخول الزائر",
+        "enter_visitor_entry": "أدخل رمز دخول الزائر أو رمز المسح",
+        "confirm": "يتأكد"
+    },
+    "in_out": {
+        "In_Out": "في خارج",
+        "in": "في",
+        "out": "خارج",
+        "inside": "داخل",
+        "waiting": "منتظر"
+    },
+    "message": {
+        "message": "رسالة"
+    },
+    "ringing": {
+        "ringing": "رنين...",
+        "they_are_getting_inform": "إنهم يحصلون على معلومات"
+    },
+    "select_entry_address": {
+        "guest_entry": "دخول الضيف",
+        "continue": "يكمل",
+        "select_flat_num": "حدد رقم الشقة",
+        "block_a": "بلوك أ",
+        "block_B": "بلوك ب",
+        "clubhouse": "النادي",
+        "common_area": "منطقة مشتركة"
+    },
+    "service_entry": {
+        "service_entry": "إدخال الخدمة",
+        "continue": "يكمل",
+        "inside_time": "داخل الوقت",
+        "enter_inside_time": "أدخل داخل الوقت",
+        "serviceman_company": "شركة خدمية",
+        "enter_serviceman_company": "أدخل شركة الخدمة",
+        "phone_number": "رقم التليفون",
+        "enter_phone_number": "أدخل رقم الهاتف",
+        "serviceman_name": "اسم الخدم",
+        "enter_serviceman_name": "أدخل اسم الجندي"
+    },
+    "call": {
+        "Calling": "جارٍ الاتصال..."
+    },
+    "edit_profile": {
+        "edit_profile": "تعديل الملف الشخصي",
+        "update": "تحديث",
+        "phone_number": "رقم التليفون",
+        "enter_phone_number": "أدخل رقم الهاتف",
+        "email_address": "عنوان البريد الإلكتروني",
+        "enter_email_address": "أدخل عنوان البريد الالكتروني",
+        "name": "اسم",
+        "enter_name": "أدخل الاسم",
+        "add_image": "إضافة صورة",
+        "camera": "آلة تصوير",
+        "gallery": "صالة عرض",
+        "remove": "يزيل"
+    },
+    "get_support": {
+        "get_support": "احصل على الدعم",
+        "ask_suggest_improve": "اطلب منا اقتراح أي طريقة يمكننا تحسينها",
+        "submit_message": "تقديم رسالة",
+        "message": "رسالة",
+        "enter_your_message": "أدخل رسالتك",
+        "issue_type": "نوع القضية",
+        "enter_issue_type": "أدخل الموضوع / نوع المشكلة"
+    },
+    "language": {
+        "language": "لغة",
+        "update": "تحديث"
+    },
+    "privacy_policy": {
+        "privacy_policy": "سياسة الخصوصية"
+    },
+    "settings": {
+        "settings": "إعدادات",
+        "language": "لغة",
+        "get_support": "احصل على الدعم",
+        "terms_and_condition": "الشروط والأحكام",
+        "privacy_policy": "سياسة الخصوصية",
+        "logout": "تسجيل خروج",
+        "sure_text": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+        "no": "لا",
+        "yes": "نعم",
+        "call_admin": "اتصل بالمسؤول",
+        "call_secretory": "استدعاء سكرتير",
+        "quick_contact": "اتصال سريع",
+        "on_duty": "في الخدمة"
+    },
+    "terms_and_condition": {
+        "terms_condition": "الشروط والأحكام"
+    },
+    "bottom_bar": {
+        "home": "بيت",
+        "in_out": "في خارج",
+        "messages": "رسائل",
+        "settings": "إعدادات"
+    }
+}

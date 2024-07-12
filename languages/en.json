@@ -1,0 +1,187 @@
+{
+    "exit_app": {
+        "exit_text": "Press back once again to exit"
+    },
+    "allowed": {
+        "allowed": "Allowed",
+        "text": "Let’s Guest enter the society",
+        "back_to_home": "Back to home"
+    },
+    "login": {
+        "login": "Login",
+        "login_text": "*we will sent OTP for verification",
+        "enter_mobile_number": "Enter mobile number",
+        "please_text": "Hello users please login your account",
+        "LOGIN": "LOGIN"
+    },
+    "otp": {
+        "receive_text": "Didn't receive ?",
+        "resend": "resend",
+        "verify": "Verify",
+        "please_wait": "Please wait",
+        "please_text": "Please enter OTP we will sent to you on your mobile no +91 1234567890",
+        "OTP_VERIFICATION": "OTP VERIFICATION"
+    },
+    "register": {
+        "please_text": "Hello users please create your account",
+        "REGISTER": "REGISTER",
+        "register": "Register",
+        "email_address": "Email address",
+        "mobile_number": "Mobile number",
+        "user_name": "User name"
+    },
+    "cab_entry": {
+        "cab_entry": "Cab entry",
+        "continue": "Continue",
+        "pickup_droupup": "Pickup/Droupup",
+        "enter_pickup_droupup": "Enter Pickup/Droupup",
+        "cab_company": "Cab company",
+        "enter_delivery_cab_company": "Enter delivery cab company",
+        "enter_last_digit_cab": "Enter last 4 digit of cab",
+        "cab_driver_name": "Cab driver name",
+        "enter_cab_driver_name": "Enter cab driver name"
+    },
+    "chat": {
+        "type_here": "Type your text here...."
+    },
+    "confirm": {
+        "guest": "Guest",
+        "visiting": "Visiting",
+        "gatepass": "Gatepass",
+        "confirm_send_in": "Confirm & send in"
+    },
+    "confirm_send_notification": {
+        "guest_entry": "Guest entry",
+        "confirm_and_send_notification": "Confirm and send notification",
+        "inside_time": "Inside time",
+        "enter_inside_time": "Enter Inside time",
+        "visiting": "Visiting",
+        "enter_visiting": "Enter visiting",
+        "guest_name": "Guest name",
+        "enter_guest_name": "Enter guest name"
+    },
+    "delivery_entry": {
+        "delivery_entry": "Delivery entry",
+        "continue": "Continue",
+        "inside_time": "Inside time",
+        "enter_inside_time": "Enter Inside time",
+        "delivery_company": "Delivery company",
+        "delivery_company_name": "Delivery company name",
+        "phone_number": "Phone number",
+        "enter_phone_number": "Enter phone number",
+        "deliveryman_name": "Deliveryman name",
+        "enter_deliveryman_name": "Enter deliveryman name"
+    },
+    "guest_entry": {
+        "guest_entry": "Guest entry",
+        "continue": "Continue",
+        "inside_time": "Inside time",
+        "enter_inside_time": "Enter Inside time",
+        "mobile_number": "Mobile number",
+        "enter_mobile_number": "Enter mobile number",
+        "guest_name": "Guest name",
+        "enter_guest_name": "Enter guest name"
+    },
+    "home": {
+        "add_new_visitor": "Add new visitor",
+        "guest_entry": "Guest entry",
+        "cab_entry": "Cab entry",
+        "delivery_entry": "Delivery entry",
+        "service_entry": "Service entry",
+        "visitor_entry": "Visitor entry",
+        "enter_visitor_entry": "Enter visitor entry code or scan code",
+        "confirm": "Confirm"
+    },
+    "in_out": {
+        "In_Out": "In - Out",
+        "in": "In",
+        "out": "Out",
+        "inside": "Inside",
+        "waiting": "Waiting"
+    },
+    "message": {
+        "message": "Message"
+    },
+    "ringing": {
+        "ringing": "Ringing...",
+        "they_are_getting_inform": "They are getting inform"
+    },
+    "select_entry_address": {
+        "guest_entry": "Guest entry",
+        "continue": "Continue",
+        "select_flat_num": "Select flat num",
+        "block_a": "Block A",
+        "block_B": "Block B",
+        "clubhouse": "Clubhouse",
+        "common_area": "Common area"
+    },
+    "service_entry": {
+        "service_entry": "Service entry",
+        "continue": "Continue",
+        "inside_time": "Inside time",
+        "enter_inside_time": "Enter inside time",
+        "serviceman_company": "Serviceman company",
+        "enter_serviceman_company": "Enter serviceman company",
+        "phone_number": "phone number",
+        "enter_phone_number": "Enter phone number",
+        "serviceman_name": "Serviceman name",
+        "enter_serviceman_name": "Enter serviceman name"
+    },
+    "call": {
+        "Calling": "Calling..."
+    },
+    "edit_profile": {
+        "edit_profile": "Edit profile",
+        "update": "Update",
+        "phone_number": "Phone number",
+        "enter_phone_number": "Enter phone number",
+        "email_address": "Email address",
+        "enter_email_address": "Enter email address",
+        "name": "Name",
+        "enter_name": "Enter name",
+        "add_image": "Add image",
+        "camera": "Camera",
+        "gallery": "Gallery",
+        "remove": "Remove"
+    },
+    "get_support": {
+        "get_support": "Get support",
+        "ask_suggest_improve": "Ask us suggest any way we can improve",
+        "submit_message": "Submit message",
+        "message": "Message",
+        "enter_your_message": "Enter your message",
+        "issue_type": "Issue type",
+        "enter_issue_type": "Enter topic / issue type"
+    },
+    "language": {
+        "language": "Language",
+        "update": "Update"
+    },
+    "privacy_policy": {
+        "privacy_policy": "Privacy policy"
+    },
+    "settings": {
+        "settings": "Settings",
+        "language": "Language",
+        "get_support": "Get support",
+        "terms_and_condition": "Terms & condition",
+        "privacy_policy": "Privacy policy",
+        "logout": "Logout",
+        "sure_text": "Are you sure you want to logout?",
+        "no": "No",
+        "yes": "Yes",
+        "call_admin": "Call admin",
+        "call_secretory": "Call Secretory",
+        "quick_contact": "Quick Contact",
+        "on_duty": "On duty"
+    },
+    "terms_and_condition": {
+        "terms_condition": "Terms  & condition"
+    },
+    "bottom_bar": {
+        "home": "Home",
+        "in_out": "In-out",
+        "messages": "Messages",
+        "settings": "Settings"
+    }
+}

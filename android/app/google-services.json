@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "302590971270",
+    "project_id": "society-management-userapp",
+    "storage_bucket": "society-management-userapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302590971270:android:5ffd687847fb8f10b47007",
+        "android_client_info": {
+          "package_name": "com.example.fl_sevengen_society_guard_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmRRgbmyGw91_oykYx3qGSvTV8W2aQNyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302590971270:android:b3052e5fdc569857b47007",
+        "android_client_info": {
+          "package_name": "com.example.fl_sevengen_society_user_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmRRgbmyGw91_oykYx3qGSvTV8W2aQNyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

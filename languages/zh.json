@@ -1,0 +1,187 @@
+{
+    "exit_app": {
+        "exit_text": "再按一次返回即可退出"
+    },
+    "allowed": {
+        "allowed": "允许",
+        "text": "让我们的客人走进社会",
+        "back_to_home": "回到家"
+    },
+    "login": {
+        "login": "登录",
+        "login_text": "*我们将发送 OTP 进行验证",
+        "enter_mobile_number": "输入手机号码",
+        "please_text": "用户您好，请登录您的账户",
+        "LOGIN": "登录"
+    },
+    "otp": {
+        "receive_text": "没有收到？",
+        "resend": "重发",
+        "verify": "核实",
+        "please_wait": "请稍等",
+        "please_text": "请输入 OTP，我们将通过您的手机号码发送给您 +91 1234567890",
+        "OTP_VERIFICATION": "一次性密码验证"
+    },
+    "register": {
+        "please_text": "您好用户请创建您的帐户",
+        "REGISTER": "登记",
+        "register": "登记",
+        "email_address": "电子邮件地址",
+        "mobile_number": "手机号码",
+        "user_name": "用户名"
+    },
+    "cab_entry": {
+        "cab_entry": "驾驶室入口",
+        "continue": "继续",
+        "pickup_droupup": "拾取/分组",
+        "enter_pickup_droupup": "输入分拣/分组",
+        "cab_company": "出租车公司",
+        "enter_delivery_cab_company": "输入出租车公司",
+        "enter_last_digit_cab": "输入出租车的最后 4 位数字",
+        "cab_driver_name": "出租车司机姓名",
+        "enter_cab_driver_name": "输入出租车司机姓名"
+    },
+    "chat": {
+        "type_here": "在此输入文字...."
+    },
+    "confirm": {
+        "guest": "客人",
+        "visiting": "参观",
+        "gatepass": "街道通行证",
+        "confirm_send_in": "确认并发送"
+    },
+    "confirm_send_notification": {
+        "guest_entry": "嘉宾入场",
+        "confirm_and_send_notification": "确认并发送通知",
+        "inside_time": "内部时间",
+        "enter_inside_time": "输入内部时间",
+        "visiting": "参观",
+        "enter_visiting": "进入访问",
+        "guest_name": "客人姓名",
+        "enter_guest_name": "输入客人姓名"
+    },
+    "delivery_entry": {
+        "delivery_entry": "交货条目",
+        "continue": "继续",
+        "inside_time": "内部时间",
+        "enter_inside_time": "输入内部时间",
+        "delivery_company": "送货公司",
+        "delivery_company_name": "送货公司名称",
+        "phone_number": "电话号码",
+        "enter_phone_number": "输入电话号码",
+        "deliveryman_name": "送货员姓名",
+        "enter_deliveryman_name": "输入送货员姓名"
+    },
+    "guest_entry": {
+        "guest_entry": "嘉宾入场",
+        "continue": "继续",
+        "inside_time": "内部时间",
+        "enter_inside_time": "输入内部时间",
+        "mobile_number": "手机号码",
+        "enter_mobile_number": "输入手机号码",
+        "guest_name": "客人姓名",
+        "enter_guest_name": "输入客人姓名"
+    },
+    "home": {
+        "add_new_visitor": "添加新访客",
+        "guest_entry": "嘉宾入场",
+        "cab_entry": "驾驶室入口",
+        "delivery_entry": "交货条目",
+        "service_entry": "服务入口",
+        "visitor_entry": "访客入场",
+        "enter_visitor_entry": "输入访客入场码或扫码",
+        "confirm": "确认"
+    },
+    "in_out": {
+        "In_Out": "进出",
+        "in": "在",
+        "out": "出去",
+        "inside": "里面",
+        "waiting": "等待"
+    },
+    "message": {
+        "message": "信息"
+    },
+    "ringing": {
+        "ringing": "铃声...",
+        "they_are_getting_inform": "他们正在获取信息"
+    },
+    "select_entry_address": {
+        "guest_entry": "嘉宾入场",
+        "continue": "继续",
+        "select_flat_num": "选择公寓号码",
+        "block_a": "A座",
+        "block_B": "B座",
+        "clubhouse": "俱乐部",
+        "common_area": "公共区域"
+    },
+    "service_entry": {
+        "service_entry": "服务入口",
+        "continue": "继续",
+        "inside_time": "内部时间",
+        "enter_inside_time": "输入内部时间",
+        "serviceman_company": "军人连",
+        "enter_serviceman_company": "进入军人连",
+        "phone_number": "电话号码",
+        "enter_phone_number": "输入电话号码",
+        "serviceman_name": "军人姓名",
+        "enter_serviceman_name": "输入军人姓名"
+    },
+    "call": {
+        "Calling": "打电话..."
+    },
+    "edit_profile": {
+        "edit_profile": "编辑个人资料",
+        "update": "更新",
+        "phone_number": "电话号码",
+        "enter_phone_number": "输入电话号码",
+        "email_address": "电子邮件地址",
+        "enter_email_address": "请输入电邮地址",
+        "name": "姓名",
+        "enter_name": "输入名字",
+        "add_image": "添加图片",
+        "camera": "相机",
+        "gallery": "画廊",
+        "remove": "消除"
+    },
+    "get_support": {
+        "get_support": "得到支持",
+        "ask_suggest_improve": "请向我们提出任何可以改进的建议",
+        "submit_message": "提交留言",
+        "message": "信息",
+        "enter_your_message": "输入您的留言",
+        "issue_type": "问题类型",
+        "enter_issue_type": "输入主题/问题类型"
+    },
+    "language": {
+        "language": "语言",
+        "update": "更新"
+    },
+    "privacy_policy": {
+        "privacy_policy": "隐私政策"
+    },
+    "settings": {
+        "settings": "设置",
+        "language": "语言",
+        "get_support": "得到支持",
+        "terms_and_condition": "条款与协议",
+        "privacy_policy": "隐私政策",
+        "logout": "登出",
+        "sure_text": "您确定要退出吗？",
+        "no": "不",
+        "yes": "是的",
+        "call_admin": "致电管理员",
+        "call_secretory": "致电秘书",
+        "quick_contact": "快速联系",
+        "on_duty": "值班"
+    },
+    "terms_and_condition": {
+        "terms_condition": "条款与协议"
+    },
+    "bottom_bar": {
+        "home": "家",
+        "in_out": "进出",
+        "messages": "留言",
+        "settings": "设置"
+    }
+}

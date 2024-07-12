@@ -1,0 +1,187 @@
+{
+    "exit_app": {
+        "exit_text": "बाहर निकलने के लिए एक बार फिर वापस दबाएँ"
+    },
+    "allowed": {
+        "allowed": "अनुमत",
+        "text": "आइए अतिथि समाज में प्रवेश करें",
+        "back_to_home": "घर वापिस जा रहा हूँ"
+    },
+    "login": {
+        "login": "लॉग इन करें",
+        "login_text": "*हम सत्यापन के लिए ओटीपी भेजेंगे",
+        "enter_mobile_number": "मोबाइल नंबर दर्ज करें",
+        "please_text": "नमस्कार उपयोगकर्ताओं, कृपया अपना खाता लॉगिन करें",
+        "LOGIN": "लॉग इन करें"
+    },
+    "otp": {
+        "receive_text": "नहीं मिला?",
+        "resend": "पुन: भेजें",
+        "verify": "सत्यापित करें",
+        "please_wait": "कृपया प्रतीक्षा करें",
+        "please_text": "कृपया ओटीपी दर्ज करें जो हम आपको आपके मोबाइल नंबर +91 1234567890 पर भेजेंगे",
+        "OTP_VERIFICATION": "ओटीपी सत्यापन"
+    },
+    "register": {
+        "please_text": "नमस्ते उपयोगकर्ताओं कृपया अपना खाता बनाएं",
+        "REGISTER": "पंजीकरण करवाना",
+        "register": "पंजीकरण करवाना",
+        "email_address": "मेल पता",
+        "mobile_number": "मोबाइल नंबर",
+        "user_name": "उपयोगकर्ता नाम"
+    },
+    "cab_entry": {
+        "cab_entry": "कैब प्रवेश",
+        "continue": "जारी रखना",
+        "pickup_droupup": "पिकअप/ड्रूपअप",
+        "enter_pickup_droupup": "पिकअप/ड्रूपअप दर्ज करें",
+        "cab_company": "कैब कंपनी",
+        "enter_delivery_cab_company": "डिलीवरी कैब कंपनी दर्ज करें",
+        "enter_last_digit_cab": "कैब के अंतिम 4 अंक दर्ज करें",
+        "cab_driver_name": "कैब ड्राइवर का नाम",
+        "enter_cab_driver_name": "कैब ड्राइवर का नाम दर्ज करें"
+    },
+    "chat": {
+        "type_here": "यहां अपना पाठ लिखें...."
+    },
+    "confirm": {
+        "guest": "अतिथि",
+        "visiting": "यात्रा पर जाने वाले",
+        "gatepass": "सड़क मार्ग",
+        "confirm_send_in": "पुष्टि करें और भेजें"
+    },
+    "confirm_send_notification": {
+        "guest_entry": "अतिथि प्रवेश",
+        "confirm_and_send_notification": "पुष्टि करें और अधिसूचना भेजें",
+        "inside_time": "समय के अंदर",
+        "enter_inside_time": "अंदर का समय दर्ज करें",
+        "visiting": "यात्रा पर जाने वाले",
+        "enter_visiting": "विजिटिंग दर्ज करें",
+        "guest_name": "अतिथि का नाम",
+        "enter_guest_name": "अतिथि का नाम दर्ज करें"
+    },
+    "delivery_entry": {
+        "delivery_entry": "डिलिवरी प्रविष्टि",
+        "continue": "जारी रखना",
+        "inside_time": "समय के अंदर",
+        "enter_inside_time": "अंदर का समय दर्ज करें",
+        "delivery_company": "वितरण कंपनी",
+        "delivery_company_name": "डिलिवरी कंपनी का नाम",
+        "phone_number": "फ़ोन नंबर",
+        "enter_phone_number": "फोन नंबर दर्ज",
+        "deliveryman_name": "डिलीवरीमैन का नाम",
+        "enter_deliveryman_name": "डिलीवरीमैन का नाम दर्ज करें"
+    },
+    "guest_entry": {
+        "guest_entry": "अतिथि प्रवेश",
+        "continue": "जारी रखना",
+        "inside_time": "समय के अंदर",
+        "enter_inside_time": "अंदर का समय दर्ज करें",
+        "mobile_number": "मोबाइल नंबर",
+        "enter_mobile_number": "मोबाइल नंबर दर्ज करें",
+        "guest_name": "अतिथि का नाम",
+        "enter_guest_name": "अतिथि का नाम दर्ज करें"
+    },
+    "home": {
+        "add_new_visitor": "नया विज़िटर जोड़ें",
+        "guest_entry": "अतिथि प्रवेश",
+        "cab_entry": "कैब प्रवेश",
+        "delivery_entry": "डिलिवरी प्रविष्टि",
+        "service_entry": "सेवा प्रवेश",
+        "visitor_entry": "आगंतुक प्रवेश",
+        "enter_visitor_entry": "विज़िटर प्रवेश कोड या स्कैन कोड दर्ज करें",
+        "confirm": "पुष्टि करना"
+    },
+    "in_out": {
+        "In_Out": "बाहर में",
+        "in": "में",
+        "out": "बाहर",
+        "inside": "अंदर",
+        "waiting": "इंतज़ार में"
+    },
+    "message": {
+        "message": "संदेश"
+    },
+    "ringing": {
+        "ringing": "बज रहा है...",
+        "they_are_getting_inform": "उनसे जानकारी ली जा रही है"
+    },
+    "select_entry_address": {
+        "guest_entry": "अतिथि प्रवेश",
+        "continue": "जारी रखना",
+        "select_flat_num": "फ़्लैट नंबर चुनें",
+        "block_a": "ब्लॉक ए",
+        "block_B": "ब्लॉक बी",
+        "clubhouse": "क्लब हाउस",
+        "common_area": "सामान्य क्षेत्र"
+    },
+    "service_entry": {
+        "service_entry": "सेवा प्रवेश",
+        "continue": "जारी रखना",
+        "inside_time": "समय के अंदर",
+        "enter_inside_time": "समय के अंदर प्रवेश करें",
+        "serviceman_company": "सर्विसमैन कंपनी",
+        "enter_serviceman_company": "सर्विसमैन कंपनी दर्ज करें",
+        "phone_number": "फ़ोन नंबर",
+        "enter_phone_number": "फोन नंबर दर्ज",
+        "serviceman_name": "सेवादार का नाम",
+        "enter_serviceman_name": "सर्विसमैन का नाम दर्ज करें"
+    },
+    "call": {
+        "Calling": "कॉल कर रहा हूँ..."
+    },
+    "edit_profile": {
+        "edit_profile": "प्रोफ़ाइल संपादित करें",
+        "update": "अद्यतन",
+        "phone_number": "फ़ोन नंबर",
+        "enter_phone_number": "फोन नंबर दर्ज",
+        "email_address": "मेल पता",
+        "enter_email_address": "ईमेल पता दर्ज करें",
+        "name": "नाम",
+        "enter_name": "नाम दर्ज करें",
+        "add_image": "छवि जोड़ें",
+        "camera": "कैमरा",
+        "gallery": "गैलरी",
+        "remove": "निकालना"
+    },
+    "get_support": {
+        "get_support": "समर्थन प्राप्त करें",
+        "ask_suggest_improve": "हमसे पूछें कि हम किस प्रकार सुधार कर सकते हैं, इसका सुझाव दें",
+        "submit_message": "संदेश जमा करें",
+        "message": "संदेश",
+        "enter_your_message": "अपना संदेश दर्ज करें",
+        "issue_type": "विषय वर्ग",
+        "enter_issue_type": "विषय/समस्या प्रकार दर्ज करें"
+    },
+    "language": {
+        "language": "भाषा",
+        "update": "अद्यतन"
+    },
+    "privacy_policy": {
+        "privacy_policy": "गोपनीयता नीति"
+    },
+    "settings": {
+        "settings": "समायोजन",
+        "language": "भाषा",
+        "get_support": "समर्थन प्राप्त करें",
+        "terms_and_condition": "नियम व शर्त",
+        "privacy_policy": "गोपनीयता नीति",
+        "logout": "लॉग आउट",
+        "sure_text": "क्या आप लॉग आउट करना चाहते हैं?",
+        "no": "नहीं",
+        "yes": "हाँ",
+        "call_admin": "व्यवस्थापक को कॉल करें",
+        "call_secretory": "सचिव को बुलाओ",
+        "quick_contact": "त्वरित संपर्क करें",
+        "on_duty": "काम पर"
+    },
+    "terms_and_condition": {
+        "terms_condition": "नियम व शर्त"
+    },
+    "bottom_bar": {
+        "home": "घर",
+        "in_out": "बाहर में",
+        "messages": "संदेशों",
+        "settings": "समायोजन"
+    }
+}

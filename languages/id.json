@@ -1,0 +1,187 @@
+{
+    "exit_app": {
+        "exit_text": "Tekan kembali sekali lagi untuk keluar"
+    },
+    "allowed": {
+        "allowed": "Diizinkan",
+        "text": "Mari Tamu memasuki masyarakat",
+        "back_to_home": "Kembali ke rumah"
+    },
+    "login": {
+        "login": "Gabung",
+        "login_text": "*kami akan mengirimkan OTP untuk verifikasi",
+        "enter_mobile_number": "Masukkan nomor ponsel",
+        "please_text": "Halo pengguna, silakan masuk ke akun Anda",
+        "LOGIN": "GABUNG"
+    },
+    "otp": {
+        "receive_text": "Tidak menerima?",
+        "resend": "kirim ulang",
+        "verify": "Memeriksa",
+        "please_wait": "Harap tunggu",
+        "please_text": "Silakan masukkan OTP yang akan kami kirimkan kepada Anda di no ponsel Anda +91 1234567890",
+        "OTP_VERIFICATION": "VERIFIKASI OTP"
+    },
+    "register": {
+        "please_text": "Halo pengguna, silakan buat akun Anda",
+        "REGISTER": "DAFTAR",
+        "register": "Daftar",
+        "email_address": "Alamat email",
+        "mobile_number": "Nomor handphone",
+        "user_name": "Nama belakang"
+    },
+    "cab_entry": {
+        "cab_entry": "Entri taksi",
+        "continue": "Melanjutkan",
+        "pickup_droupup": "Penjemputan/Droupup",
+        "enter_pickup_droupup": "Masukkan Penjemputan/Droupup",
+        "cab_company": "Perusahaan taksi",
+        "enter_delivery_cab_company": "Masukkan perusahaan taksi pengiriman",
+        "enter_last_digit_cab": "Masukkan 4 digit terakhir taksi",
+        "cab_driver_name": "Nama supir taksi",
+        "enter_cab_driver_name": "Masukkan nama pengemudi taksi"
+    },
+    "chat": {
+        "type_here": "Ketik teks Anda di sini...."
+    },
+    "confirm": {
+        "guest": "Tamu",
+        "visiting": "Mengunjungi",
+        "gatepass": "Tiket masuk jalan",
+        "confirm_send_in": "Konfirmasi & kirim"
+    },
+    "confirm_send_notification": {
+        "guest_entry": "Entri tamu",
+        "confirm_and_send_notification": "Konfirmasikan dan kirim pemberitahuan",
+        "inside_time": "Di dalam waktu",
+        "enter_inside_time": "Masukkan waktu ke dalam",
+        "visiting": "Mengunjungi",
+        "enter_visiting": "Masuk mengunjungi",
+        "guest_name": "Nama tamu",
+        "enter_guest_name": "Masukkan nama tamu"
+    },
+    "delivery_entry": {
+        "delivery_entry": "Entri pengiriman",
+        "continue": "Melanjutkan",
+        "inside_time": "Di dalam waktu",
+        "enter_inside_time": "Masukkan waktu ke dalam",
+        "delivery_company": "Perusahaan pengantar",
+        "delivery_company_name": "Nama perusahaan pengiriman",
+        "phone_number": "Nomor telepon",
+        "enter_phone_number": "Masukkan nomor telepon",
+        "deliveryman_name": "Nama pengantar barang",
+        "enter_deliveryman_name": "Masukkan nama pengirim"
+    },
+    "guest_entry": {
+        "guest_entry": "Entri tamu",
+        "continue": "Melanjutkan",
+        "inside_time": "Di dalam waktu",
+        "enter_inside_time": "Masukkan waktu ke dalam",
+        "mobile_number": "Nomor handphone",
+        "enter_mobile_number": "Masukkan nomor ponsel",
+        "guest_name": "Nama tamu",
+        "enter_guest_name": "Masukkan nama tamu"
+    },
+    "home": {
+        "add_new_visitor": "Tambahkan pengunjung baru",
+        "guest_entry": "Entri tamu",
+        "cab_entry": "Entri taksi",
+        "delivery_entry": "Entri pengiriman",
+        "service_entry": "Entri layanan",
+        "visitor_entry": "Entri pengunjung",
+        "enter_visitor_entry": "Masukkan kode entri pengunjung atau kode pindaian",
+        "confirm": "Mengonfirmasi"
+    },
+    "in_out": {
+        "In_Out": "Masuk - Keluar",
+        "in": "Di dalam",
+        "out": "Keluar",
+        "inside": "Di dalam",
+        "waiting": "Menunggu"
+    },
+    "message": {
+        "message": "Pesan"
+    },
+    "ringing": {
+        "ringing": "Dering...",
+        "they_are_getting_inform": "Mereka mendapat informasi"
+    },
+    "select_entry_address": {
+        "guest_entry": "Entri tamu",
+        "continue": "Melanjutkan",
+        "select_flat_num": "Pilih nomor tetap",
+        "block_a": "Blok A",
+        "block_B": "Blok B",
+        "clubhouse": "Gedung klub",
+        "common_area": "Area umum"
+    },
+    "service_entry": {
+        "service_entry": "Entri layanan",
+        "continue": "Melanjutkan",
+        "inside_time": "Di dalam waktu",
+        "enter_inside_time": "Masukkan waktu ke dalam",
+        "serviceman_company": "Perusahaan tukang servis",
+        "enter_serviceman_company": "Masukkan perusahaan prajurit",
+        "phone_number": "nomor telepon",
+        "enter_phone_number": "Masukkan nomor telepon",
+        "serviceman_name": "Nama prajurit",
+        "enter_serviceman_name": "Masukkan nama petugas servis"
+    },
+    "call": {
+        "Calling": "Panggilan..."
+    },
+    "edit_profile": {
+        "edit_profile": "Sunting profil",
+        "update": "Memperbarui",
+        "phone_number": "Nomor telepon",
+        "enter_phone_number": "Masukkan nomor telepon",
+        "email_address": "Alamat email",
+        "enter_email_address": "Masukkan alamat email",
+        "name": "Nama",
+        "enter_name": "Masukkan nama",
+        "add_image": "Menambahkan gambar",
+        "camera": "Kamera",
+        "gallery": "Galeri",
+        "remove": "Menghapus"
+    },
+    "get_support": {
+        "get_support": "Dapatkan dukungan",
+        "ask_suggest_improve": "Minta kami menyarankan cara apa pun yang dapat kami tingkatkan",
+        "submit_message": "Kirim pesan",
+        "message": "Pesan",
+        "enter_your_message": "Masukkan pesan Anda",
+        "issue_type": "Jenis masalah",
+        "enter_issue_type": "Masukkan topik/jenis masalah"
+    },
+    "language": {
+        "language": "Bahasa",
+        "update": "Memperbarui"
+    },
+    "privacy_policy": {
+        "privacy_policy": "Kebijakan pribadi"
+    },
+    "settings": {
+        "settings": "Pengaturan",
+        "language": "Bahasa",
+        "get_support": "Dapatkan dukungan",
+        "terms_and_condition": "Syarat & ketentuan",
+        "privacy_policy": "Kebijakan pribadi",
+        "logout": "Keluar",
+        "sure_text": "Apakah Anda yakin ingin logout?",
+        "no": "TIDAK",
+        "yes": "Ya",
+        "call_admin": "Hubungi admin",
+        "call_secretory": "Hubungi Sekretori",
+        "quick_contact": "kontak cepat",
+        "on_duty": "Sedang bertugas"
+    },
+    "terms_and_condition": {
+        "terms_condition": "Syarat & ketentuan"
+    },
+    "bottom_bar": {
+        "home": "Rumah",
+        "in_out": "Masuk-keluar",
+        "messages": "Pesan",
+        "settings": "Pengaturan"
+    }
+}
