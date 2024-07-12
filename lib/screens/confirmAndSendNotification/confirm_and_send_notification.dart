@@ -50,7 +50,7 @@ class _ConfirmAndSendNotificationScreenState extends State<ConfirmAndSendNotific
     // Connect to the socket
     socket.connect();
     socket.onConnect((_) {
-      print('Connected to socket server');
+      print('Connected to sender socket server');
     });
 
     socket.onConnectError((data) {

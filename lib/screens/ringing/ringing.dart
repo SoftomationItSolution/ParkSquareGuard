@@ -5,7 +5,6 @@ import 'package:fl_sevengen_society_guard_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-
 class RingingScreen extends StatefulWidget {
   const RingingScreen({super.key});
 
@@ -14,7 +13,8 @@ class RingingScreen extends StatefulWidget {
 }
 
 class _RingingScreenState extends State<RingingScreen> {
-   late IO.Socket socket;
+  late IO.Socket socket;
+  bool isNavigated = false; // Flag to prevent multiple navigations
 
   @override
   void initState() {
@@ -28,28 +28,49 @@ class _RingingScreenState extends State<RingingScreen> {
 
     // Connect to socket
     socket.connect();
-        print('Socket connected Rec: ${socket.connected}');
+    print('Socket connected Receiver: ${socket.connected}');
 
+    // socket.on('permission_update', (data) {
+    //   print('Permission update received: $data');
+    //   if (data['permit'] == 1) {
+    //     Navigator.pushReplacementNamed(context, '/allowed');
+    //   }
+    // });
+
+    socket.on('connect', (_) {
+      print('Connected to socket (ReConfirm)');
+    });
+
+    socket.on('disconnect', (_) {
+      print('Disconnected from socket');
+    });
 
     socket.on('permission_update', (data) {
       print('Permission update received: $data');
-      if (data['permit'] == 1) {
-        Navigator.pushReplacementNamed(context, '/allowed');
+      if (data['permit'] == 1 && !isNavigated) {
+        isNavigated = true;
+        Navigator.pushNamed(context, '/allowed');
       }
     });
 
-    Timer(const Duration(seconds: 3), () {
-    
-      
+    // Error handling
+    socket.on('connect_error', (error) {
+      print('Socket connection error: $error');
     });
+
+    socket.on('error', (error) {
+      print('Socket error: $error');
+    });
+
+    Timer(const Duration(seconds: 3), () {});
   }
 
   @override
   void dispose() {
     socket.disconnect();
+    socket.close();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +109,25 @@ class _RingingScreenState extends State<RingingScreen> {
             ],
           ),
         ),
+        bottomNavigationBar: backToHomeButton(),
       ),
+    );
+  }
+
+  Widget backToHomeButton() {
+    return TextButton(
+      onPressed: () {
+        Navigator.pushNamed(context, '/bottombar');
+      },
+      child: Text(
+        'Back to Home',
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
+      ),
+
+      // child: Text(
+      //   getTranslate(context, 'allowed.back_to_home'),
+      //   style: semibold16Primary,
+      // ),
     );
   }
 }
