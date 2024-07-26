@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:fl_sevengen_society_guard_app/localization/localization_const.dart';
-import 'package:fl_sevengen_society_guard_app/theme/theme.dart';
+import 'package:ParkSquare/localization/localization_const.dart';
+import 'package:ParkSquare/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

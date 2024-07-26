@@ -1,6 +1,8 @@
-import 'package:fl_sevengen_society_guard_app/localization/localization_const.dart';
-import 'package:fl_sevengen_society_guard_app/theme/theme.dart';
+import 'package:ParkSquare/localization/localization_const.dart';
+import 'package:ParkSquare/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+
 
 class ServiceEntry extends StatefulWidget {
   const ServiceEntry({super.key});
@@ -10,10 +12,61 @@ class ServiceEntry extends StatefulWidget {
 }
 
 class _ServiceEntryState extends State<ServiceEntry> {
+  final stt.SpeechToText _speech = stt.SpeechToText();
+  bool _isListening = false;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _contactController = TextEditingController();
   // final TextEditingController _vehicleTypeController = TextEditingController();
   // final TextEditingController _vehicleNumberController = TextEditingController();
+  TextEditingController? _activeController;
+
+    @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  void _initSpeech() async {
+    _isListening = await _speech.initialize();
+    setState(() {});
+  }
+
+  void _listen(TextEditingController controller) async {
+    if (_activeController != null && _activeController != controller) {
+      _speech.stop();
+      _activeController = null;
+      setState(() {
+        _isListening = false;
+      });
+      return;
+    }
+
+    if (!_isListening) {
+      bool available = await _speech.initialize(
+        onStatus: (status) => print('onStatus: $status'),
+        onError: (errorNotification) => print('onError: $errorNotification'),
+      );
+      if (available) {
+        setState(() {
+          _isListening = true;
+          _activeController = controller;
+        });
+        _speech.listen(
+          onResult: (result) => setState(() {
+            controller.text = result.recognizedWords;
+          }),
+        );
+      }
+    } else {
+      setState(() {
+        _isListening = false;
+        _activeController = null;
+      });
+      _speech.stop();
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +138,8 @@ class _ServiceEntryState extends State<ServiceEntry> {
               'visitorContact': _contactController.text,
               'visitorVehicleType': "0",
               'visitorVehicleNumber': "0",
+              'visitorType': 'Service',
+
             },
           );
         },
@@ -231,10 +286,15 @@ class _ServiceEntryState extends State<ServiceEntry> {
               hintText:
                   getTranslate(context, 'service_entry.enter_phone_number'),
               hintStyle: medium16Grey,
-              suffixIcon: const Icon(
-                Icons.mic_none,
-                size: 20,
-                color: blackColor,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isListening && _activeController == _contactController
+                      ? Icons.mic
+                      : Icons.mic_none,
+                  size: 20,
+                  color: blackColor,
+                ),
+                onPressed: () => _listen(_contactController),
               ),
             ),
           ),
@@ -276,10 +336,15 @@ class _ServiceEntryState extends State<ServiceEntry> {
               hintText:
                   getTranslate(context, 'service_entry.enter_serviceman_name'),
               hintStyle: medium16Grey,
-              suffixIcon: const Icon(
-                Icons.mic_none,
-                size: 20,
-                color: blackColor,
+             suffixIcon: IconButton(
+                icon: Icon(
+                  _isListening && _activeController == _nameController
+                      ? Icons.mic
+                      : Icons.mic_none,
+                  size: 20,
+                  color: blackColor,
+                ),
+                onPressed: () => _listen(_nameController),
               ),
             ),
           ),

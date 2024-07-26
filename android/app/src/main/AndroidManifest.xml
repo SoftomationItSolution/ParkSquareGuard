@@ -4,8 +4,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <application
-        android:label="FL SevenGen Society Guard App"
+        android:label="ParkSquare"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:fl_sevengen_society_guard_app/theme/theme.dart';
+import 'package:ParkSquare/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -74,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
           heightSpace,
           const Text(
-            "SEVENGEN",
+            "ParkSquare",
             style: semibold28Primary,
           ),
           Row(

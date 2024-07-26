@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:fl_sevengen_society_guard_app/localization/localization_const.dart';
-import 'package:fl_sevengen_society_guard_app/screens/screens.dart';
-import 'package:fl_sevengen_society_guard_app/theme/theme.dart';
+import 'package:ParkSquare/localization/localization_const.dart';
+import 'package:ParkSquare/screens/screens.dart';
+import 'package:ParkSquare/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';

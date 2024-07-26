@@ -1,6 +1,8 @@
-import 'package:fl_sevengen_society_guard_app/localization/localization_const.dart';
-import 'package:fl_sevengen_society_guard_app/theme/theme.dart';
+import 'package:ParkSquare/localization/localization_const.dart';
+import 'package:ParkSquare/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+
 
 class GuestEntryScreen extends StatefulWidget {
   const GuestEntryScreen({super.key});
@@ -10,12 +12,62 @@ class GuestEntryScreen extends StatefulWidget {
 }
 
 class _GuestEntryScreenState extends State<GuestEntryScreen> {
+  final stt.SpeechToText _speech = stt.SpeechToText();
+  bool _isListening = false;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _contactController = TextEditingController();
   // final TextEditingController _vehicleTypeController = TextEditingController();
   final TextEditingController _vehicleNumberController = TextEditingController();
   final TextEditingController _visitorRcController = TextEditingController();
   String? _selectedVehicleType;
+  TextEditingController? _activeController;
+
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  void _initSpeech() async {
+    _isListening = await _speech.initialize();
+    setState(() {});
+  }
+
+  void _listen(TextEditingController controller) async {
+    if (_activeController != null && _activeController != controller) {
+      _speech.stop();
+      _activeController = null;
+      setState(() {
+        _isListening = false;
+      });
+      return;
+    }
+
+    if (!_isListening) {
+      bool available = await _speech.initialize(
+        onStatus: (status) => print('onStatus: $status'),
+        onError: (errorNotification) => print('onError: $errorNotification'),
+      );
+      if (available) {
+        setState(() {
+          _isListening = true;
+          _activeController = controller;
+        });
+        _speech.listen(
+          onResult: (result) => setState(() {
+            controller.text = result.recognizedWords;
+          }),
+        );
+      }
+    } else {
+      setState(() {
+        _isListening = false;
+        _activeController = null;
+      });
+      _speech.stop();
+    }
+  }
+
 
 
   @override
@@ -104,6 +156,16 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
                   horizontal: fixPadding, vertical: fixPadding * 1.4),
               hintText: getTranslate(context, 'Enter Visitor RC'),
               hintStyle: medium16Grey,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isListening && _activeController == _visitorRcController
+                      ? Icons.mic
+                      : Icons.mic_none,
+                  size: 20,
+                  color: blackColor,
+                ),
+                onPressed: () => _listen(_visitorRcController),
+              ),
             ),
           ),
         )
@@ -188,6 +250,16 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
                   horizontal: fixPadding, vertical: fixPadding * 1.4),
               hintText: getTranslate(context, 'Enter vehicle number'),
               hintStyle: medium16Grey,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isListening && _activeController == _vehicleNumberController
+                      ? Icons.mic
+                      : Icons.mic_none,
+                  size: 20,
+                  color: blackColor,
+                ),
+                onPressed: () => _listen(_vehicleNumberController),
+              ),
             ),
           ),
         )
@@ -210,6 +282,8 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
               'visitorVehicleType': _selectedVehicleType,
               'visitorVehicleNumber': _vehicleNumberController.text,
               'visitorRC':_visitorRcController.text,
+              'visitorType': 'Guest',
+
             },
           );
         },
@@ -271,10 +345,15 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
               hintText:
                   getTranslate(context, 'guest_entry.enter_mobile_number'),
               hintStyle: medium16Grey,
-              suffixIcon: const Icon(
-                Icons.mic_none,
-                size: 20,
-                color: blackColor,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isListening && _activeController == _contactController
+                      ? Icons.mic
+                      : Icons.mic_none,
+                  size: 20,
+                  color: blackColor,
+                ),
+                onPressed: () => _listen(_contactController),
               ),
             ),
           ),
@@ -314,10 +393,15 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
                   horizontal: fixPadding, vertical: fixPadding * 1.4),
               hintText: getTranslate(context, 'guest_entry.enter_guest_name'),
               hintStyle: medium16Grey,
-              suffixIcon: const Icon(
-                Icons.mic_none,
-                size: 20,
-                color: blackColor,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isListening && _activeController == _nameController
+                      ? Icons.mic
+                      : Icons.mic_none,
+                  size: 20,
+                  color: blackColor,
+                ),
+                onPressed: () => _listen(_nameController),
               ),
             ),
           ),

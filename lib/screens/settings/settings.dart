@@ -1,18 +1,37 @@
-import 'package:fl_sevengen_society_guard_app/localization/localization_const.dart';
-import 'package:fl_sevengen_society_guard_app/theme/theme.dart';
+import 'package:ParkSquare/localization/localization_const.dart';
+import 'package:ParkSquare/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/bx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
+  
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+    String userName = '';
+  String blockName = '';
+  String towerName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserData();
+  }
+  Future<void> loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString('userName') ?? '';
+      blockName = prefs.getString('block_name') ?? '';
+      towerName = prefs.getString('tower_name') ?? '';
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -331,15 +350,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "Albert Flores",
+                 Text(
+                  // "Albert Flores",
+                    userName,
                   style: semibold16Black33,
                 ),
                 heightBox(3.0),
-                const Text(
-                  "Gate A | SevenGen society",
-                  style: medium14Grey,
-                ),
+                Text(
+                    (blockName.isNotEmpty && towerName.isNotEmpty)
+                        ? "$blockName | $towerName"
+                        : "No Data Available",
+                    style: medium14Grey,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 heightBox(3.0),
                 Text(
                   getTranslate(context, 'settings.on_duty'),
@@ -349,8 +372,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, '/editProfile');
+            onTap: ()async {
+              await Navigator.pushNamed(context, '/editProfile');
+              loadUserData();
             },
             child: const Iconify(
               Bx.edit,

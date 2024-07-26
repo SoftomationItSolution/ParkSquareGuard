@@ -1,6 +1,6 @@
-import 'package:fl_sevengen_society_guard_app/localization/localization_const.dart';
-import 'package:fl_sevengen_society_guard_app/main.dart';
-import 'package:fl_sevengen_society_guard_app/theme/theme.dart';
+import 'package:ParkSquare/localization/localization_const.dart';
+import 'package:ParkSquare/main.dart';
+import 'package:ParkSquare/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class LanguageScreen extends StatefulWidget {

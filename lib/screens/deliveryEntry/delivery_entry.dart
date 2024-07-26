@@ -1,6 +1,8 @@
-import 'package:fl_sevengen_society_guard_app/localization/localization_const.dart';
-import 'package:fl_sevengen_society_guard_app/theme/theme.dart';
+import 'package:ParkSquare/localization/localization_const.dart';
+import 'package:ParkSquare/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+
 
 class DeliveryEntryScreen extends StatefulWidget {
   const DeliveryEntryScreen({super.key});
@@ -10,6 +12,60 @@ class DeliveryEntryScreen extends StatefulWidget {
 }
 
 class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
+  final stt.SpeechToText _speech = stt.SpeechToText();
+  bool _isListening = false;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _contactController = TextEditingController();
+  final TextEditingController _companyNameController = TextEditingController();
+  TextEditingController? _activeController;
+
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  void _initSpeech() async {
+    _isListening = await _speech.initialize();
+    setState(() {});
+  }
+
+  void _listen(TextEditingController controller) async {
+    if (_activeController != null && _activeController != controller) {
+      _speech.stop();
+      _activeController = null;
+      setState(() {
+        _isListening = false;
+      });
+      return;
+    }
+
+    if (!_isListening) {
+      bool available = await _speech.initialize(
+        onStatus: (status) => print('onStatus: $status'),
+        onError: (errorNotification) => print('onError: $errorNotification'),
+      );
+      if (available) {
+        setState(() {
+          _isListening = true;
+          _activeController = controller;
+        });
+        _speech.listen(
+          onResult: (result) => setState(() {
+            controller.text = result.recognizedWords;
+          }),
+        );
+      }
+    } else {
+      setState(() {
+        _isListening = false;
+        _activeController = null;
+      });
+      _speech.stop();
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -56,20 +112,29 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
           deliveryCompanyField(),
           heightSpace,
           heightSpace,
-          insideTimeField(),
+          // insideTimeField(),
         ],
       ),
       bottomNavigationBar: continueButton(),
     );
   }
 
-  continueButton() {
+  Widget continueButton() {
     return Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, '/selectEntryAddress');
+          Navigator.pushNamed(
+            context,
+            '/selectEntryAddress',
+            arguments: {
+              'visitorName': _nameController.text,
+              'visitorContact': _contactController.text,
+              'company': _companyNameController.text,
+              'visitorType': 'delivery',
+            },
+          );
         },
         child: Container(
           margin: const EdgeInsets.all(fixPadding * 2.0),
@@ -97,49 +162,49 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
     );
   }
 
-  insideTimeField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          getTranslate(context, 'delivery_entry.inside_time'),
-          style: medium16Grey,
-        ),
-        heightSpace,
-        Container(
-          decoration: BoxDecoration(
-            color: whiteColor,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                color: shadowColor.withOpacity(0.25),
-                blurRadius: 6.0,
-              )
-            ],
-          ),
-          child: TextField(
-            style: semibold16Black33,
-            cursorColor: primaryColor,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(
-                  horizontal: fixPadding, vertical: fixPadding * 1.4),
-              hintText:
-                  getTranslate(context, 'delivery_entry.enter_inside_time'),
-              hintStyle: medium16Grey,
-              suffixIcon: const Icon(
-                Icons.mic_none,
-                size: 20,
-                color: blackColor,
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
+  // Widget insideTimeField() {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Text(
+  //         getTranslate(context, 'delivery_entry.inside_time'),
+  //         style: medium16Grey,
+  //       ),
+  //       heightSpace,
+  //       Container(
+  //         decoration: BoxDecoration(
+  //           color: whiteColor,
+  //           borderRadius: BorderRadius.circular(10.0),
+  //           boxShadow: [
+  //             BoxShadow(
+  //               color: shadowColor.withOpacity(0.25),
+  //               blurRadius: 6.0,
+  //             )
+  //           ],
+  //         ),
+  //         child: TextField(
+  //           style: semibold16Black33,
+  //           cursorColor: primaryColor,
+  //           decoration: InputDecoration(
+  //             border: InputBorder.none,
+  //             contentPadding: const EdgeInsets.symmetric(
+  //                 horizontal: fixPadding, vertical: fixPadding * 1.4),
+  //             hintText:
+  //                 getTranslate(context, 'delivery_entry.enter_inside_time'),
+  //             hintStyle: medium16Grey,
+  //             suffixIcon: const Icon(
+  //               Icons.mic_none,
+  //               size: 20,
+  //               color: blackColor,
+  //             ),
+  //           ),
+  //         ),
+  //       )
+  //     ],
+  //   );
+  // }
 
-  deliveryCompanyField() {
+  Widget deliveryCompanyField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -160,6 +225,7 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
             ],
           ),
           child: TextField(
+            controller: _companyNameController,
             style: semibold16Black33,
             cursorColor: primaryColor,
             keyboardType: TextInputType.name,
@@ -170,10 +236,15 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
               hintText:
                   getTranslate(context, 'delivery_entry.delivery_company_name'),
               hintStyle: medium16Grey,
-              suffixIcon: const Icon(
-                Icons.mic_none,
-                size: 20,
-                color: blackColor,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isListening && _activeController == _companyNameController
+                      ? Icons.mic
+                      : Icons.mic_none,
+                  size: 20,
+                  color: blackColor,
+                ),
+                onPressed: () => _listen(_companyNameController),
               ),
             ),
           ),
@@ -182,7 +253,7 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
     );
   }
 
-  phoneNumberField() {
+  Widget phoneNumberField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -203,6 +274,7 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
             ],
           ),
           child: TextField(
+            controller: _contactController,
             style: semibold16Black33,
             cursorColor: primaryColor,
             keyboardType: TextInputType.phone,
@@ -213,10 +285,15 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
               hintText:
                   getTranslate(context, 'delivery_entry.enter_phone_number'),
               hintStyle: medium16Grey,
-              suffixIcon: const Icon(
-                Icons.mic_none,
-                size: 20,
-                color: blackColor,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isListening && _activeController == _contactController
+                      ? Icons.mic
+                      : Icons.mic_none,
+                  size: 20,
+                  color: blackColor,
+                ),
+                onPressed: () => _listen(_contactController),
               ),
             ),
           ),
@@ -225,7 +302,7 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
     );
   }
 
-  deliverymanNameField() {
+  Widget deliverymanNameField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -246,6 +323,7 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
             ],
           ),
           child: TextField(
+            controller: _nameController,
             style: semibold16Black33,
             cursorColor: primaryColor,
             keyboardType: TextInputType.name,
@@ -256,10 +334,15 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
               hintText: getTranslate(
                   context, 'delivery_entry.enter_deliveryman_name'),
               hintStyle: medium16Grey,
-              suffixIcon: const Icon(
-                Icons.mic_none,
-                size: 20,
-                color: blackColor,
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isListening && _activeController == _nameController
+                      ? Icons.mic
+                      : Icons.mic_none,
+                  size: 20,
+                  color: blackColor,
+                ),
+                onPressed: () => _listen(_nameController),
               ),
             ),
           ),

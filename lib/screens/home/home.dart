@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:fl_sevengen_society_guard_app/localization/localization_const.dart';
-import 'package:fl_sevengen_society_guard_app/theme/theme.dart';
+import 'package:ParkSquare/localization/localization_const.dart';
+import 'package:ParkSquare/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -9,6 +9,8 @@ import 'package:iconify_flutter/icons/carbon.dart';
 import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../api.dart';
+import 'qrView.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,9 +19,12 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>with WidgetsBindingObserver {
+  final TextEditingController pinController = TextEditingController();
+
   Future<Map<String, dynamic>> getGuestData(String entryCode) async {
-    final response = await http.get(Uri.parse('http://93.127.198.13:5015/api/visitor/getGatePass'));
+    final response = await http
+        .get(Uri.parse('${ApiConfig.baseUrl}api/visitor/getGatePass'));
     if (response.statusCode == 200) {
       List<dynamic> visitors = json.decode(response.body);
       for (var visitor in visitors) {
@@ -46,10 +51,31 @@ class _HomeScreenState extends State<HomeScreen> {
   String blockName = '';
   String towerName = '';
 
-  @override
+   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _loadUserData();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    pinController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      clearPinCode();
+    }
+  }
+
+  void clearPinCode() {
+    setState(() {
+      pinController.clear();
+    });
   }
 
   Future<void> _loadUserData() async {
@@ -59,6 +85,36 @@ class _HomeScreenState extends State<HomeScreen> {
       blockName = prefs.getString('block_name') ?? '';
       towerName = prefs.getString('tower_name') ?? '';
     });
+  }
+
+  Future<void> _logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+  }
+
+  void _handleQRCodeResult(String scannedCode) async {
+    if (scannedCode.length == 6) {
+      setState(() {
+        pinController.text = scannedCode;
+      });
+      try {
+        final guestData = await getGuestData(scannedCode);
+        Navigator.pushNamed(
+          context,
+          '/confirm',
+          arguments: guestData,
+         ).then((_) => clearPinCode());
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Guest not found')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Invalid QR code')),
+      );
+    }
   }
 
   @override
@@ -87,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
                 image: const DecorationImage(
-                  image: AssetImage("assets/home/profileImage.png"),
+                  image: AssetImage("assets/guardImg.png"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -98,21 +154,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                  userName,
-                  style: semibold16Black33,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                heightBox(3.0),
-                Text(
-                  "$blockName | $towerName",
-                  style: medium14Grey,
-                  overflow: TextOverflow.ellipsis,
-                )
+                    userName,
+                    style: semibold16Black33,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  heightBox(3.0),
+                  Text(
+                    (blockName.isNotEmpty && towerName.isNotEmpty)
+                        ? "$blockName | $towerName"
+                        : "No Data Available",
+                    style: medium14Grey,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
             )
           ],
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout, color: redColor),
+            onPressed: _logout,
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -207,7 +271,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   visitorEntryBox() {
-  final TextEditingController pinController = TextEditingController();
     return Container(
       margin: const EdgeInsets.fromLTRB(fixPadding * 2.0, fixPadding * 1.5,
           fixPadding * 2.0, fixPadding * 1.6),
@@ -260,21 +323,23 @@ class _HomeScreenState extends State<HomeScreen> {
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
-                  try {
-                    final guestData = await getGuestData(pinController.text);
-                    Navigator.pushNamed(
-                      context,
-                      '/confirm',
-                      arguments: guestData,
-                    );
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Guest not found')),
-                    );
-                  }
-                },
+                    try {
+                      final guestData = await getGuestData(pinController.text);
+                      Navigator.pushNamed(
+                        context,
+                        '/confirm',
+                        arguments: guestData,
+                       ).then((_) => clearPinCode());
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Guest not found')),
+                      );
+                    }
+                  },
                   child: Container(
-                    height: 50.0,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: fixPadding * 0.9,
+                    ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),
                       color: whiteColor,
@@ -294,26 +359,43 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               widthSpace,
-              Container(
-                height: 50.0,
-                width: 50.0,
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.circular(5.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: primaryColor.withOpacity(0.2),
-                      blurRadius: 6.0,
-                    )
-                  ],
+              GestureDetector(
+                onTap: () async {
+                  final scannedCode = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const QRViewExample(),
+                    ),
+                  );
+                  if (scannedCode != null) {
+                    _handleQRCodeResult(scannedCode);
+                  } else {
+                    setState(() {
+                      pinController.clear();
+                    });
+                  }
+                },
+                child: Container(
+                  height: 50.0,
+                  width: 50.0,
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(5.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: primaryColor.withOpacity(0.2),
+                        blurRadius: 6.0,
+                      )
+                    ],
+                  ),
+                  alignment: Alignment.center,
+                  child: const Iconify(
+                    Carbon.qr_code,
+                    color: whiteColor,
+                    size: 30.0,
+                  ),
                 ),
-                alignment: Alignment.center,
-                child: const Iconify(
-                  Carbon.qr_code,
-                  color: whiteColor,
-                  size: 30.0,
-                ),
-              )
+              ),
             ],
           )
         ],

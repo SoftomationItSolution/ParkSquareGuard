@@ -1,5 +1,5 @@
-import 'package:fl_sevengen_society_guard_app/localization/localization_const.dart';
-import 'package:fl_sevengen_society_guard_app/theme/theme.dart';
+import 'package:ParkSquare/localization/localization_const.dart';
+import 'package:ParkSquare/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class PrivacyPolicyScreen extends StatefulWidget {
@@ -41,30 +41,30 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
           logo(),
           heightSpace,
           heightSpace,
-          const Text(
-            "Lorem ipsum dolor sit amet, consectetur adipiscindf elitj. Eu scelerisque neque neque vestibulumaugued enullalkll quis mauris. Ac solliciegestapellentesqueg adipiscing. Leo aliquam, aliquam non sit valaoreethg Morbi felis volutpat eu vestibulum, ornare purus ath the puruse. Pretium maecenas in eget sapien odioh. ",
-            style: medium15Grey,
-          ),
+          // const Text(
+          //   "Lorem ipsum dolor sit amet, consectetur adipiscindf elitj. Eu scelerisque neque neque vestibulumaugued enullalkll quis mauris. Ac solliciegestapellentesqueg adipiscing. Leo aliquam, aliquam non sit valaoreethg Morbi felis volutpat eu vestibulum, ornare purus ath the puruse. Pretium maecenas in eget sapien odioh. ",
+          //   style: medium15Grey,
+          // ),
           heightSpace,
-          const Text(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Imperdiet accumsan nec, enim viverra.Interdum massa diam. Pellentesque ornare ornare lobortis sit. Utpulvinar tincidunt amet mi elit rutrum. Liberolorem acommodof. Egestas vel duis ut a ivenenatisLectussLorem ipsum dolor sit amet, consectetur adipiscing elit. Imperdiet accumsan nec, enim viverra.Interdum massa diam. Pellentesque ornare ornare lobortis sit. Utpulvinar tincidunt amet mi elit rutrum. Liberolorem acommodof. Egestas vel duis ut a ivenenatisLectuss  ",
-            style: medium15Grey,
-          ),
-          heightSpace,
-          const Text(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Imperdiet accumsan nec, enim viverra.Interdum massa diam. Pellentesque ornare ornare lobortis sit. Utpulvinar tincidunt amet mi elit rutrum. Liberolorem acommodof. Egestas vel duis ut a ivenenatisLectussLorem ipsum dolor sit amet, consectetur adipiscing elit. Imperdiet accumsan nec, enim viverra.Interdum massa diam. Pellentesque ornare ornare lobortis sit. Utpulvinar tincidunt amet mi elit rutrum. Liberolorem acommodof. Egestas vel duis ut a ivenenatisLectuss  ",
-            style: medium15Grey,
-          ),
-          heightSpace,
-          const Text(
-            "Lorem ipsum dolor sit amet, consectetur adipiscindf elitj. Eu scelerisque neque neque vestibulumaugued enullalkll quis mauris. Ac solliciegestapellentesqueg adipiscing. Leo aliquam, aliquam non sit valaoreethg Morbi felis volutpat eu vestibulum, ornare purus ath the puruse. Pretium maecenas in eget sapien odioh. ",
-            style: medium15Grey,
-          ),
-          heightSpace,
-          const Text(
-            "Lorem ipsum dolor sit amet, consectetur adipiscindf elitj. Eu scelerisque neque neque vestibulumaugued enullalkll quis mauris. Ac solliciegestapellentesqueg adipiscing. Leo aliquam, aliquam non sit valaoreethg Morbi felis volutpat eu vestibulum, ornare purus ath the puruse. Pretium maecenas in eget sapien odioh. ",
-            style: medium15Grey,
-          ),
+          // const Text(
+          //   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Imperdiet accumsan nec, enim viverra.Interdum massa diam. Pellentesque ornare ornare lobortis sit. Utpulvinar tincidunt amet mi elit rutrum. Liberolorem acommodof. Egestas vel duis ut a ivenenatisLectussLorem ipsum dolor sit amet, consectetur adipiscing elit. Imperdiet accumsan nec, enim viverra.Interdum massa diam. Pellentesque ornare ornare lobortis sit. Utpulvinar tincidunt amet mi elit rutrum. Liberolorem acommodof. Egestas vel duis ut a ivenenatisLectuss  ",
+          //   style: medium15Grey,
+          // ),
+          // heightSpace,
+          // const Text(
+          //   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Imperdiet accumsan nec, enim viverra.Interdum massa diam. Pellentesque ornare ornare lobortis sit. Utpulvinar tincidunt amet mi elit rutrum. Liberolorem acommodof. Egestas vel duis ut a ivenenatisLectussLorem ipsum dolor sit amet, consectetur adipiscing elit. Imperdiet accumsan nec, enim viverra.Interdum massa diam. Pellentesque ornare ornare lobortis sit. Utpulvinar tincidunt amet mi elit rutrum. Liberolorem acommodof. Egestas vel duis ut a ivenenatisLectuss  ",
+          //   style: medium15Grey,
+          // ),
+          // heightSpace,
+          // const Text(
+          //   "Lorem ipsum dolor sit amet, consectetur adipiscindf elitj. Eu scelerisque neque neque vestibulumaugued enullalkll quis mauris. Ac solliciegestapellentesqueg adipiscing. Leo aliquam, aliquam non sit valaoreethg Morbi felis volutpat eu vestibulum, ornare purus ath the puruse. Pretium maecenas in eget sapien odioh. ",
+          //   style: medium15Grey,
+          // ),
+          // heightSpace,
+          // const Text(
+          //   "Lorem ipsum dolor sit amet, consectetur adipiscindf elitj. Eu scelerisque neque neque vestibulumaugued enullalkll quis mauris. Ac solliciegestapellentesqueg adipiscing. Leo aliquam, aliquam non sit valaoreethg Morbi felis volutpat eu vestibulum, ornare purus ath the puruse. Pretium maecenas in eget sapien odioh. ",
+          //   style: medium15Grey,
+          // ),
         ],
       ),
     );
@@ -80,7 +80,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
         ),
         heightSpace,
         const Text(
-          "SEVENGEN",
+          "ParkSquare",
           style: semibold28Primary,
           textAlign: TextAlign.center,
         ),

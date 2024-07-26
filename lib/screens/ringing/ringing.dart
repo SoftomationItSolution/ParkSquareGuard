@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:fl_sevengen_society_guard_app/localization/localization_const.dart';
-import 'package:fl_sevengen_society_guard_app/theme/theme.dart';
+import 'package:ParkSquare/localization/localization_const.dart';
+import 'package:ParkSquare/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 
 class RingingScreen extends StatefulWidget {
   const RingingScreen({super.key});
@@ -21,7 +22,7 @@ class _RingingScreenState extends State<RingingScreen> {
     super.initState();
 
     // Initialize socket connection
-    socket = IO.io('http://93.127.198.13:5016', <String, dynamic>{
+    socket = IO.io('http://93.127.198.13:3005', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });

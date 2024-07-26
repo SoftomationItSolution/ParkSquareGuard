@@ -1,6 +1,6 @@
 {
-    "name": "fl_sevengen_society_guard_app",
-    "short_name": "fl_sevengen_society_guard_app",
+    "name": "ParkSquare",
+    "short_name": "ParkSquare",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

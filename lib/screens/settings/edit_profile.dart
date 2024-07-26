@@ -1,6 +1,13 @@
-import 'package:fl_sevengen_society_guard_app/localization/localization_const.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:io';
 
+import 'package:ParkSquare/localization/localization_const.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../api.dart';
 import '../../theme/theme.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -14,13 +21,139 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  String userName = '';
+  String blockName = '';
+  String towerName = '';
+  String? _imageUrl;
+  File? _image;
 
   @override
   void initState() {
-    nameController.text = "Albert Flores";
-    emailController.text = "Albert@mail.com";
-    phoneController.text = "+91 1234567890";
     super.initState();
+    loadUserData();
+    print("Initial _image: $_image");
+    print("Initial _imageUrl: $_imageUrl");
+  }
+
+  // void loadUserData() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   int? userId = prefs.getInt('user_id');
+  //   blockName = prefs.getString('block_name') ?? '';
+  //   towerName = prefs.getString('tower_name') ?? '';
+
+  //   final response =
+  //       await http.get(Uri.parse('${ApiConfig.baseUrl}$userId'));
+  //   if (response.statusCode == 200) {
+  //     final userData = json.decode(response.body);
+  //     print("userData>>>>>>>, $userData");
+  //     setState(() {
+  //       nameController.text = userData['userName'] ?? '';
+  //       emailController.text = userData['userEmail'] ?? '';
+  //       phoneController.text = userData['userContact'] ?? '';
+  //       // _imageUrl = userData['image'] != null ? '${ApiConfig.baseUrl}${userData['image']}' : null;
+  //       _imageUrl = userData['image'] != null
+  //           ? '${ApiConfig.baseUrl}${userData['image']}'
+  //           : null;
+  //       print("Updated _imageUrl: $_imageUrl");
+  //     });
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Failed to load user data')),
+  //     );
+  //   }
+  // }
+
+void loadUserData() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int? userId = prefs.getInt('user_id');
+  blockName = prefs.getString('block_name') ?? '';
+  towerName = prefs.getString('tower_name') ?? '';
+
+  final response = await http.get(Uri.parse('${ApiConfig.baseUrl}$userId'));
+  if (response.statusCode == 200) {
+    final userData = json.decode(response.body);
+    print("userData>>>>>>>, $userData");
+    setState(() {
+      nameController.text = userData['userName'] ?? '';
+      emailController.text = userData['userEmail'] ?? '';
+      phoneController.text = userData['userContact'] ?? '';
+      _imageUrl = userData['image'] != null
+          ? '${ApiConfig.baseUrl}${userData['image'].replaceFirst('/opt/soft/parking/parkingApi/uploads/', 'uploads/')}'
+          : null;
+      print("Updated _imageUrl: $_imageUrl");
+    });
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Failed to load user data')),
+    );
+  }
+}
+
+  
+  Future<void> updateUserData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final int? userId = prefs.getInt('user_id');
+
+    final url = Uri.parse('${ApiConfig.baseUrl}updateUsers/$userId');
+
+    try {
+      var request = http.MultipartRequest('PUT', url);
+      request.fields['userName'] = nameController.text;
+      request.fields['userEmail'] = emailController.text;
+      request.fields['userContact'] = phoneController.text;
+
+      if (_image != null) {
+        var file = await http.MultipartFile.fromPath('image', _image!.path);
+        request.files.add(file);
+      }
+
+      var response = await request.send();
+      var responseData = await response.stream.toBytes();
+      var responseString = String.fromCharCodes(responseData);
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Profile updated successfully')),
+        );
+
+        // Update SharedPreferences
+        await prefs.setString('userName', nameController.text);
+        await prefs.setString('userEmail', emailController.text);
+        await prefs.setString('userContact', phoneController.text);
+
+        // Update _imageUrl if a new image was uploaded
+        if (_image != null) {
+          var jsonResponse = json.decode(responseString);
+          String imageUrl = '${ApiConfig.baseUrl}${jsonResponse['image']}';
+          print("Full image URL: $imageUrl");
+          Future.delayed(Duration(seconds: 2), () {
+            setState(() {
+              _imageUrl = imageUrl;
+              _image = null;
+            });
+          });
+        }
+        imageCache.clear();
+        imageCache.clearLiveImages();
+        // // Clear image cache
+        // await imageCache.clear();
+        // await imageCache.clearLiveImages();
+
+        setState(() {
+          // Force a rebuild of the widget tree
+        });
+
+        print("Image URL after update: $_imageUrl");
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to update profile')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('An error occurred: $e')),
+      );
+    }
   }
 
   @override
@@ -53,16 +186,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         children: [
           userImage(size),
           heightSpace,
-          const Text(
-            "Albert flores",
+          Text(
+            nameController.text,
+            // "Albert flores",
             textAlign: TextAlign.center,
             style: semibold18Primary,
           ),
           height5Space,
-          const Text(
-            "Gate A | SevenGen society",
+          Text(
+            (blockName.isNotEmpty && towerName.isNotEmpty)
+                ? "$blockName | $towerName"
+                : "No Data Available",
             style: medium14Grey,
             textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
           ),
           heightSpace,
           heightSpace,
@@ -86,7 +223,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: GestureDetector(
         onTap: () {
-          Navigator.pop(context);
+          // Navigator.pop(context);
+          updateUserData();
         },
         child: Container(
           margin: const EdgeInsets.all(fixPadding * 2.0),
@@ -244,23 +382,39 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               boxShadow: [
                 BoxShadow(color: shadowColor.withOpacity(0.23), blurRadius: 6.0)
               ],
-              image: const DecorationImage(
-                image: AssetImage("assets/settings/profileImage.png"),
-                fit: BoxFit.cover,
-              ),
             ),
+            child: _image != null
+                ? ClipOval(
+                    child: Image.file(
+                      _image!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        print('Error loading local image: $error');
+                        return Icon(Icons.error);
+                      },
+                    ),
+                  )
+                : _imageUrl != null
+                    ? ClipOval(
+                        child: Image.network(
+                          _imageUrl!,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            print('Error loading network image: $error');
+                            return Icon(Icons.error);
+                          },
+                        ),
+                      )
+                    : Image.asset(
+                        "assets/settings/profileImage.png",
+                        fit: BoxFit.cover,
+                      ),
           ),
-          languageValue == 4
-              ? Positioned(
-                  left: 0,
-                  bottom: 0,
-                  child: cameraButton(size),
-                )
-              : Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: cameraButton(size),
-                )
+          Positioned(
+            right: 0,
+            bottom: 0,
+            child: cameraButton(size),
+          ),
         ],
       ),
     );
@@ -310,26 +464,40 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
             heightSpace,
             heightSpace,
-            optionWidget(context, Icons.camera_alt, const Color(0xFF1E4799),
-                getTranslate(context, 'edit_profile.camera')),
+            optionWidget(
+                context,
+                Icons.camera_alt,
+                const Color(0xFF1E4799),
+                getTranslate(context, 'edit_profile.camera'),
+                ImageSource.camera),
             heightSpace,
             heightSpace,
-            optionWidget(context, Icons.photo, const Color(0xFF1E996D),
-                getTranslate(context, 'edit_profile.gallery')),
+            optionWidget(
+                context,
+                Icons.photo,
+                const Color(0xFF1E996D),
+                getTranslate(context, 'edit_profile.gallery'),
+                ImageSource.gallery),
             heightSpace,
             heightSpace,
             optionWidget(context, Icons.delete, const Color(0xFFEF1717),
-                getTranslate(context, 'edit_profile.remove')),
+                getTranslate(context, 'edit_profile.remove'), null),
           ],
         );
       },
     );
   }
 
-  optionWidget(BuildContext context, IconData icon, Color color, String title) {
+  optionWidget(BuildContext context, IconData icon, Color color, String title,
+      ImageSource? source) {
     return InkWell(
       onTap: () {
         Navigator.pop(context);
+        if (source != null) {
+          _getImage(source);
+        } else {
+          _removeImage();
+        }
       },
       child: Row(
         children: [
@@ -363,5 +531,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ],
       ),
     );
+  }
+
+  Future _getImage(ImageSource source) async {
+    final pickedFile = await ImagePicker().pickImage(source: source);
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+        _imageUrl =
+            null;
+      });
+    }
+  }
+
+  void _removeImage() {
+    setState(() {
+      _image = null;
+      _imageUrl = null;
+    });
   }
 }

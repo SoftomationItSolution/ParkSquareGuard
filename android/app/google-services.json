@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:302590971270:android:5ffd687847fb8f10b47007",
         "android_client_info": {
-          "package_name": "com.example.fl_sevengen_society_guard_app"
+          "package_name": "com.example.ParkSquare"
         }
       },
       "oauth_client": [],
@@ -28,7 +28,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:302590971270:android:b3052e5fdc569857b47007",
         "android_client_info": {
-          "package_name": "com.example.fl_sevengen_society_user_app"
+          "package_name": "com.example.fl_ParkSquare_society_user_app"
         }
       },
       "oauth_client": [],

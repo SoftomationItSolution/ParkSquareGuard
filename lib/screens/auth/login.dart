@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ParkSquare/localization/localization_const.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:fl_sevengen_society_guard_app/localization/localization_const.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +28,16 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _isMounted = true;
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    
+    if (isLoggedIn) {
+      Navigator.pushReplacementNamed(context, '/bottombar');
+    }
   }
 
   @override
@@ -66,6 +76,9 @@ class _LoginScreenState extends State<LoginScreen> {
         await prefs.setInt('society_id', userData['society_id']);
         await prefs.setInt('user_id', userData['id']);
         await prefs.setString('userName', username);
+        await prefs.setString('userContact', userData['userContact']);
+        await prefs.setString('userEmail', userData['userEmail']);
+        await prefs.setBool('isLoggedIn', true);
 
         final fcmToken = await FirebaseMessaging.instance.getToken();
         print("fcmToken>, $fcmToken");
@@ -124,8 +137,8 @@ class _LoginScreenState extends State<LoginScreen> {
             orElse: () => null,
           );
 
-          if (userDetail != null && userDetail['flat'] != null) {
-            final flat = userDetail['flat'];
+          if (userDetail != null && userDetail['flats'] != null && userDetail['flats'].isNotEmpty) {
+          final flat = userDetail['flats'][0]['flat'];
             await prefs.setString('block_name', flat['block_name']);
             await prefs.setString('tower_name', flat['tower_name']);
             await prefs.setInt('floor_number', flat['floor_number']);
@@ -207,10 +220,10 @@ class _LoginScreenState extends State<LoginScreen> {
               heightSpace,
               // phoneField(),
               height5Space,
-              verificationText(),
-              heightSpace,
-              heightSpace,
-              heightSpace,
+              // verificationText(),
+              // heightSpace,
+              // heightSpace,
+              // heightSpace,
               heightSpace,
               heightSpace,
               height5Space,
@@ -245,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
         textAlign: languageValue == 4 ? TextAlign.right : TextAlign.left,
         decoration: InputDecoration(
           border: InputBorder.none,
-          hintText: getTranslate(context, 'login.enter_username'),
+          hintText: getTranslate(context, 'Enter Username'),
           hintStyle: medium16Grey,
           contentPadding: const EdgeInsets.symmetric(
               horizontal: fixPadding, vertical: fixPadding * 1.4),
@@ -276,7 +289,7 @@ class _LoginScreenState extends State<LoginScreen> {
         textAlign: languageValue == 4 ? TextAlign.right : TextAlign.left,
         decoration: InputDecoration(
           border: InputBorder.none,
-          hintText: getTranslate(context, 'login.enter_password'),
+          hintText: getTranslate(context, 'Enter Password'),
           hintStyle: medium16Grey,
           contentPadding: const EdgeInsets.symmetric(
               horizontal: fixPadding, vertical: fixPadding * 1.4),
@@ -315,12 +328,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  verificationText() {
-    return Text(
-      getTranslate(context, 'login.login_text'),
-      style: medium14Primary,
-    );
-  }
+  // verificationText() {
+  //   return Text(
+  //     getTranslate(context, 'login.login_text'),
+  //     style: medium14Primary,
+  //   );
+  // }
 
   // phoneField() {
   //   return Container(

@@ -1,9 +1,9 @@
+import 'package:ParkSquare/localization/localization_const.dart';
+import 'package:ParkSquare/screens/guestEntry/guest_search.dart';
+import 'package:ParkSquare/screens/screens.dart';
+import 'package:ParkSquare/theme/theme.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fl_sevengen_society_guard_app/localization/localization_const.dart';
-import 'package:fl_sevengen_society_guard_app/screens/guestEntry/guest_search.dart';
-import 'package:fl_sevengen_society_guard_app/screens/screens.dart';
-import 'package:fl_sevengen_society_guard_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
       ),
     );
     return MaterialApp(
-      title: 'Sevengen Society Guard',
+      title: 'ParkSquare Guard',
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
       ],

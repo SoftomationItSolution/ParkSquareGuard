@@ -1,4 +1,4 @@
-import 'package:fl_sevengen_society_guard_app/localization/localization.dart';
+import 'package:ParkSquare/localization/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
