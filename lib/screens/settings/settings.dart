@@ -1,5 +1,5 @@
-import 'package:ParkSquare/localization/localization_const.dart';
-import 'package:ParkSquare/theme/theme.dart';
+import 'package:Park360/localization/localization_const.dart';
+import 'package:Park360/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -15,6 +15,11 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+       Future<void> _logout() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // Clear all user data from SharedPreferences
+    Navigator.pushReplacementNamed(context, '/login'); // Navigate to login screen
+  }
     String userName = '';
   String blockName = '';
   String towerName = '';
@@ -52,8 +57,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: const EdgeInsets.only(bottom: fixPadding),
         children: [
           guardDetail(),
-          quickContactTitle(),
-          quickContactOption(size),
+          // quickContactTitle(),
+          // quickContactOption(size),
           heightSpace,
           listTileWidget(
               CupertinoIcons.globe, getTranslate(context, 'settings.language'),
@@ -150,8 +155,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/login');
+                      onTap: () async {
+                        Navigator.pop(context);
+                        await _logout();
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -235,26 +241,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  quickContactOption(Size size) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-          horizontal: fixPadding * 2.0, vertical: fixPadding * 1.7),
-      color: greyF6F3Color,
-      child: Row(
-        children: [
-          contactWidget(size, getTranslate(context, 'settings.call_admin'), () {
-            Navigator.pushNamed(context, '/call');
-          }),
-          widthSpace,
-          widthSpace,
-          contactWidget(size, getTranslate(context, 'settings.call_secretory'),
-              () {
-            Navigator.pushNamed(context, '/call');
-          }),
-        ],
-      ),
-    );
-  }
+  // quickContactOption(Size size) {
+  //   return Container(
+  //     padding: const EdgeInsets.symmetric(
+  //         horizontal: fixPadding * 2.0, vertical: fixPadding * 1.7),
+  //     color: greyF6F3Color,
+  //     child: Row(
+  //       children: [
+  //         contactWidget(size, getTranslate(context, 'settings.call_admin'), () {
+  //           Navigator.pushNamed(context, '/call');
+  //         }),
+  //         widthSpace,
+  //         widthSpace,
+  //         contactWidget(size, getTranslate(context, 'settings.call_secretory'),
+  //             () {
+  //           Navigator.pushNamed(context, '/call');
+  //         }),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   contactWidget(Size size, String title, Function() onTap) {
     return Expanded(

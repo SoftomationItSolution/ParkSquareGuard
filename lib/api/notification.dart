@@ -8,12 +8,15 @@ Future<bool> sendNotifications({
   required String fcmToken,
   required String title,
   required String body,
+   String? imageUrl, 
+  
 }) async {
   List<Map<String, String>> notifications = [
     {
       "token": fcmToken,
       "title": title,
-      "body": body
+      "body": body,
+       if (imageUrl != null) "imageUrl": imageUrl, 
     },
   ];
 

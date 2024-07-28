@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:ParkSquare/localization/localization_const.dart';
-import 'package:ParkSquare/theme/theme.dart';
+import 'package:Park360/localization/localization_const.dart';
+import 'package:Park360/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,7 +38,7 @@ class _ConfirmAndSendNotificationScreenState
   TextEditingController visitorRcController = TextEditingController();
   TextEditingController companyNameController = TextEditingController();
   String visitorType = '';
-
+  
   @override
   void initState() {
     super.initState();
@@ -207,10 +207,11 @@ class _ConfirmAndSendNotificationScreenState
             fixPadding * 2.0, fixPadding, fixPadding * 2.0, fixPadding * 2.0),
         physics: const BouncingScrollPhysics(),
         children: [
+          // Display visitor image or placeholder if not available
           Image.asset(
-            "assets/home/guests.png",
-            height: size.height * 0.13,
-          ),
+                  "assets/home/guests.png",
+                  height: size.height * 0.13,
+                ),
           heightSpace,
           heightSpace,
           heightSpace,
@@ -275,7 +276,7 @@ class _ConfirmAndSendNotificationScreenState
 
   Widget guestNameField() {
     return buildTextField(
-      label: getTranslate(context, 'confirm_send_notification.guest_name'),
+      label: getTranslate(context, 'Name'),
       controller: nameController,
       keyboardType: TextInputType.name,
     );
@@ -283,7 +284,7 @@ class _ConfirmAndSendNotificationScreenState
 
   Widget contactField() {
     return buildTextField(
-      label: getTranslate(context, 'confirm_send_notification.contact'),
+      label: getTranslate(context, 'Contact'),
       controller: contactController,
       keyboardType: TextInputType.phone,
     );
@@ -291,21 +292,21 @@ class _ConfirmAndSendNotificationScreenState
 
   Widget vehicleTypeField() {
     return buildTextField(
-      label: getTranslate(context, 'confirm_send_notification.vehicle_type'),
+      label: getTranslate(context, 'Vehicle Type'),
       controller: vehicleTypeController,
     );
   }
 
   Widget vehicleNumberField() {
     return buildTextField(
-      label: getTranslate(context, 'confirm_send_notification.vehicle_number'),
+      label: getTranslate(context, 'Vehicle Number'),
       controller: vehicleNumberController,
     );
   }
 
   Widget flatNumberField() {
     return buildTextField(
-      label: getTranslate(context, 'confirm_send_notification.flat_number'),
+      label: getTranslate(context, 'Flat Number'),
       controller: flatNumberController,
     );
   }

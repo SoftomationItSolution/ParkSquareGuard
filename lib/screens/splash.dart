@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:ParkSquare/theme/theme.dart';
+import 'package:Park360/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -74,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
           heightSpace,
           const Text(
-            "ParkSquare",
+            "Park360",
             style: semibold28Primary,
           ),
           Row(

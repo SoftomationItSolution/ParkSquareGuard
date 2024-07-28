@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '302590971270',
     projectId: 'society-management-userapp',
     storageBucket: 'society-management-userapp.appspot.com',
-    iosBundleId: 'com.example.flParkSquareSocietyGuardApp',
+    iosBundleId: 'com.example.flPark360SocietyGuardApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -72,7 +72,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '302590971270',
     projectId: 'society-management-userapp',
     storageBucket: 'society-management-userapp.appspot.com',
-    iosBundleId: 'com.example.flParkSquareSocietyGuardApp',
+    iosBundleId: 'com.example.flPark360SocietyGuardApp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(

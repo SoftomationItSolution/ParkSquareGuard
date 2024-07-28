@@ -1,6 +1,12 @@
-import 'package:ParkSquare/localization/localization_const.dart';
-import 'package:ParkSquare/theme/theme.dart';
+import 'dart:convert';
+
+import 'package:Park360/localization/localization_const.dart';
+import 'package:Park360/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../api.dart';
 
 class GetSupportScreen extends StatefulWidget {
   const GetSupportScreen({super.key});
@@ -10,6 +16,42 @@ class GetSupportScreen extends StatefulWidget {
 }
 
 class _GetSupportScreenState extends State<GetSupportScreen> {
+  final TextEditingController issueTypeFieldController = TextEditingController();
+  final TextEditingController messageFieldController = TextEditingController();
+
+   Future<void> submitIssue() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('user_id');
+
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('User not logged in')),
+      );
+      return;
+    }
+
+    final response = await http.post(
+      Uri.parse('${ApiConfig.baseUrl}api/societyManagement/submitComplaint'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'complaintType': issueTypeFieldController.text,
+        'breif_complaint': messageFieldController.text,
+        'userId': userId,
+        "status":1
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Issue submitted successfully')),
+      );
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to submit Issue')),
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -77,9 +119,10 @@ class _GetSupportScreenState extends State<GetSupportScreen> {
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-        },
+        // onTap: () {
+        //   Navigator.pop(context);
+        // },
+        onTap: submitIssue,
         child: Container(
           margin: const EdgeInsets.all(fixPadding * 2.0),
           padding: const EdgeInsets.symmetric(
@@ -129,6 +172,7 @@ class _GetSupportScreenState extends State<GetSupportScreen> {
             ],
           ),
           child: TextField(
+            controller: messageFieldController,
             expands: true,
             maxLines: null,
             minLines: null,
@@ -167,6 +211,7 @@ class _GetSupportScreenState extends State<GetSupportScreen> {
             ],
           ),
           child: TextField(
+            controller: issueTypeFieldController,
             cursorColor: primaryColor,
             style: medium14Black33,
             decoration: InputDecoration(

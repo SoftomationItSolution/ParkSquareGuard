@@ -1,5 +1,5 @@
-import 'package:ParkSquare/localization/localization_const.dart';
-import 'package:ParkSquare/theme/theme.dart';
+import 'package:Park360/localization/localization_const.dart';
+import 'package:Park360/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
@@ -179,7 +179,7 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          getTranslate(context, 'guest_entry.vehicle_type'),
+          getTranslate(context, 'vehicle Type'),
           style: medium16Grey,
         ),
         heightSpace,
@@ -213,7 +213,7 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
                 _selectedVehicleType = newValue;
               });
             },
-            hint: Text(getTranslate(context, 'guest_entry.enter_vehicle_type'), style: medium16Grey),
+            hint: Text(getTranslate(context, 'Enter Vehicle Type'), style: medium16Grey),
           ),
         ),
       ],

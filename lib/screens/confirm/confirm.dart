@@ -1,6 +1,7 @@
-import 'package:ParkSquare/localization/localization_const.dart';
-import 'package:ParkSquare/theme/theme.dart';
+import 'package:Park360/localization/localization_const.dart';
+import 'package:Park360/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ConfirmScreen extends StatefulWidget {
   final Map<String, dynamic> guestData;
@@ -37,7 +38,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
             fixPadding * 2.0, fixPadding, fixPadding * 2.0, fixPadding * 2.0),
         physics: const BouncingScrollPhysics(),
         children: [
-          visitorImage(size),
+          // visitorImage(size),
           heightSpace,
           heightSpace,
           heightSpace,
@@ -58,10 +59,10 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
           detailBox("Phone", widget.guestData['guestPhone']),
           heightSpace,
           heightSpace,
-          detailBox("Enter Date", widget.guestData['enterDate']),
+          detailBox("Enter Date", formatDate(widget.guestData['enterDate'])),
           heightSpace,
           heightSpace,
-          detailBox("Enter Time", widget.guestData['enterTime']),
+          detailBox("Enter Time", formatTime(widget.guestData['enterTime'])),
           heightSpace,
           heightSpace,
           confirmAndSendinButton(context)
@@ -70,22 +71,30 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     );
   }
 
-  visitorImage(Size size) {
-    return Center(
-      child: Container(
-        height: size.width * 0.28,
-        width: size.width * 0.28,
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          image: DecorationImage(
-            image: AssetImage(
-              "assets/confirm/image.png",
-            ),
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
+  // visitorImage(Size size) {
+  //   return Center(
+  //     child: Container(
+  //       height: size.width * 0.28,
+  //       width: size.width * 0.28,
+  //       decoration: const BoxDecoration(
+  //         shape: BoxShape.circle,
+  //         image: DecorationImage(
+  //           image: AssetImage(
+  //             "assets/confirm/image.png",
+  //           ),
+  //           fit: BoxFit.cover,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+   String formatDate(String dateStr) {
+    DateTime date = DateTime.parse(dateStr);
+    return DateFormat('dd-MM-yyyy').format(date);
+  }
+   String formatTime(String timeStr) {
+    DateTime time = DateTime.parse(timeStr);
+    return DateFormat('HH:mm').format(time);
   }
 
   confirmAndSendinButton(BuildContext context) {

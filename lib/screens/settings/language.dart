@@ -1,6 +1,6 @@
-import 'package:ParkSquare/localization/localization_const.dart';
-import 'package:ParkSquare/main.dart';
-import 'package:ParkSquare/theme/theme.dart';
+import 'package:Park360/localization/localization_const.dart';
+import 'package:Park360/main.dart';
+import 'package:Park360/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class LanguageScreen extends StatefulWidget {

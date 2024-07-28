@@ -1,4 +1,4 @@
-import 'package:ParkSquare/localization/localization_const.dart';
+import 'package:Park360/localization/localization_const.dart';
 import 'package:flutter/material.dart';
 
 import '../../theme/theme.dart';

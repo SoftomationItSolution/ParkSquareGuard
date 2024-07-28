@@ -1,7 +1,7 @@
-import 'package:ParkSquare/localization/localization_const.dart';
-import 'package:ParkSquare/screens/guestEntry/guest_search.dart';
-import 'package:ParkSquare/screens/screens.dart';
-import 'package:ParkSquare/theme/theme.dart';
+import 'package:Park360/localization/localization_const.dart';
+import 'package:Park360/screens/guestEntry/guest_search.dart';
+import 'package:Park360/screens/screens.dart';
+import 'package:Park360/theme/theme.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
       ),
     );
     return MaterialApp(
-      title: 'ParkSquare Guard',
+      title: 'Park360 Guard',
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
       ],

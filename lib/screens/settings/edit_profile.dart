@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ParkSquare/localization/localization_const.dart';
+import 'package:Park360/localization/localization_const.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -35,33 +35,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     print("Initial _imageUrl: $_imageUrl");
   }
 
-  // void loadUserData() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   int? userId = prefs.getInt('user_id');
-  //   blockName = prefs.getString('block_name') ?? '';
-  //   towerName = prefs.getString('tower_name') ?? '';
-
-  //   final response =
-  //       await http.get(Uri.parse('${ApiConfig.baseUrl}$userId'));
-  //   if (response.statusCode == 200) {
-  //     final userData = json.decode(response.body);
-  //     print("userData>>>>>>>, $userData");
-  //     setState(() {
-  //       nameController.text = userData['userName'] ?? '';
-  //       emailController.text = userData['userEmail'] ?? '';
-  //       phoneController.text = userData['userContact'] ?? '';
-  //       // _imageUrl = userData['image'] != null ? '${ApiConfig.baseUrl}${userData['image']}' : null;
-  //       _imageUrl = userData['image'] != null
-  //           ? '${ApiConfig.baseUrl}${userData['image']}'
-  //           : null;
-  //       print("Updated _imageUrl: $_imageUrl");
-  //     });
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('Failed to load user data')),
-  //     );
-  //   }
-  // }
 
 void loadUserData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();

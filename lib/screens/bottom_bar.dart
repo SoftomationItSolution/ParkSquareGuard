@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:ParkSquare/localization/localization_const.dart';
-import 'package:ParkSquare/screens/screens.dart';
-import 'package:ParkSquare/theme/theme.dart';
+import 'package:Park360/localization/localization_const.dart';
+import 'package:Park360/screens/screens.dart';
+import 'package:Park360/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -23,8 +23,8 @@ class _BottomBarState extends State<BottomBar> {
 
   final pages = const [
     HomeScreen(),
-    InOutScreen(),
-    MessagesScreen(),
+    // InOutScreen(),
+    // MessagesScreen(),
     SettingsScreen(),
   ];
   DateTime? backPressTime;
@@ -58,7 +58,11 @@ class _BottomBarState extends State<BottomBar> {
       currentIndex: selectedIndex,
       onTap: (index) {
         setState(() {
-          selectedIndex = index;
+          if (index == 0) {
+            selectedIndex = 0; // HomeScreen
+          } else if (index == 1) {
+            selectedIndex = 1; // SettingsScreen
+          }
         });
       },
       backgroundColor: whiteColor,
@@ -74,17 +78,17 @@ class _BottomBarState extends State<BottomBar> {
               color: primaryColor,
             ),
             label: getTranslate(context, 'bottom_bar.home')),
-        BottomNavigationBarItem(
-            icon: const Icon(
-              CupertinoIcons.arrow_up_arrow_down,
-              size: 22,
-            ),
-            label: getTranslate(context, 'bottom_bar.in_out')),
-        BottomNavigationBarItem(
-            icon: const Icon(
-              Icons.chat_bubble_outline,
-            ),
-            label: getTranslate(context, 'bottom_bar.messages')),
+        // BottomNavigationBarItem(
+        //     icon: const Icon(
+        //       CupertinoIcons.arrow_up_arrow_down,
+        //       size: 22,
+        //     ),
+        //     label: getTranslate(context, 'bottom_bar.in_out')),
+        // BottomNavigationBarItem(
+        //     icon: const Icon(
+        //       Icons.chat_bubble_outline,
+        //     ),
+        //     label: getTranslate(context, 'bottom_bar.messages')),
         BottomNavigationBarItem(
             icon: const Icon(
               CupertinoIcons.gear,
