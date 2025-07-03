@@ -29,11 +29,25 @@ class _HomeScreenState extends State<HomeScreen>with WidgetsBindingObserver {
       List<dynamic> visitors = json.decode(response.body);
       for (var visitor in visitors) {
         if (visitor['entryCode'].toString() == entryCode) {
-          return visitor;
+          return {'type': 'guest', 'data': visitor};
         }
       }
     }
     throw Exception('Guest not found');
+  }
+
+  Future<Map<String, dynamic>> getFrequentEntryData(String gatePass) async {
+    final response = await http
+        .get(Uri.parse('${ApiConfig.baseUrl}api/visitor/frequentEntries'));
+    if (response.statusCode == 200) {
+      List<dynamic> entries = json.decode(response.body);
+      for (var entry in entries) {
+        if (entry['gatePass'].toString() == gatePass) {
+          return {'type': 'frequent', 'data': entry};
+        }
+      }
+    }
+    throw Exception('Frequent entry not found');
   }
 
   final pinTheme = const PinTheme(
@@ -50,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen>with WidgetsBindingObserver {
   String userName = '';
   String blockName = '';
   String towerName = '';
+  String userImage = '';
 
    @override
   void initState() {
@@ -84,7 +99,9 @@ class _HomeScreenState extends State<HomeScreen>with WidgetsBindingObserver {
       userName = prefs.getString('userName') ?? '';
       blockName = prefs.getString('block_name') ?? '';
       towerName = prefs.getString('tower_name') ?? '';
+      userImage = prefs.getString('userImage') ?? '';
     });
+    print("Loaded userImage: $userImage");
   }
 
   Future<void> _logout() async {
@@ -93,21 +110,27 @@ class _HomeScreenState extends State<HomeScreen>with WidgetsBindingObserver {
     Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
   }
 
+  
   void _handleQRCodeResult(String scannedCode) async {
     if (scannedCode.length == 6) {
       setState(() {
         pinController.text = scannedCode;
       });
       try {
-        final guestData = await getGuestData(scannedCode);
+        Map<String, dynamic> data;
+        try {
+          data = await getGuestData(scannedCode);
+        } catch (e) {
+          data = await getFrequentEntryData(scannedCode);
+        }
         Navigator.pushNamed(
           context,
           '/confirm',
-          arguments: guestData,
-         ).then((_) => clearPinCode());
+          arguments: data,
+        ).then((_) => clearPinCode());
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Guest not found')),
+          SnackBar(content: Text('Entry not found')),
         );
       }
     } else {
@@ -142,10 +165,14 @@ class _HomeScreenState extends State<HomeScreen>with WidgetsBindingObserver {
                     blurRadius: 6.0,
                   )
                 ],
-                image: const DecorationImage(
-                  image: AssetImage("assets/guardImg.png"),
-                  fit: BoxFit.cover,
-                ),
+                image: userImage.isNotEmpty
+                  ? DecorationImage(
+                      image: NetworkImage(userImage),
+                      fit: BoxFit.cover,
+                    )
+                  : const DecorationImage(
+                      image: AssetImage("assets/settings/profileImage.png"),
+                    ),
               ),
             ),
             widthSpace,
@@ -324,15 +351,20 @@ class _HomeScreenState extends State<HomeScreen>with WidgetsBindingObserver {
                 child: GestureDetector(
                   onTap: () async {
                     try {
-                      final guestData = await getGuestData(pinController.text);
+                      Map<String, dynamic> data;
+                      try {
+                        data = await getGuestData(pinController.text);
+                      } catch (e) {
+                        data = await getFrequentEntryData(pinController.text);
+                      }
                       Navigator.pushNamed(
                         context,
                         '/confirm',
-                        arguments: guestData,
-                       ).then((_) => clearPinCode());
+                        arguments: data,
+                      ).then((_) => clearPinCode());
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Guest not found')),
+                        SnackBar(content: Text('Entry not found')),
                       );
                     }
                   },

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:Park360/localization/localization_const.dart';
 import 'package:Park360/theme/theme.dart';
@@ -38,7 +39,9 @@ class _ConfirmAndSendNotificationScreenState
   TextEditingController visitorRcController = TextEditingController();
   TextEditingController companyNameController = TextEditingController();
   String visitorType = '';
-  
+  String visitorImage = '';
+  File? _visitorImageFile;
+
   @override
   void initState() {
     super.initState();
@@ -52,6 +55,10 @@ class _ConfirmAndSendNotificationScreenState
     timeController.text = "1 hour";
     companyNameController.text = widget.visitorData['company'] ?? '';
     visitorType = widget.visitorData['visitorType'] ?? '';
+    String? imagePath = widget.visitorData['visitorImage'];
+    if (imagePath != null && imagePath.isNotEmpty) {
+      _visitorImageFile = File(imagePath);
+    }
     // Connect to the socket
     socket.connect();
     socket.onConnect((_) {
@@ -94,6 +101,8 @@ class _ConfirmAndSendNotificationScreenState
     }
   }
 
+  
+
   Future<List<Map<String, dynamic>>> checkUserIds(int flatId) async {
     final url = Uri.parse('${ApiConfig.baseUrl}api/visitor/check-id/$flatId');
     try {
@@ -120,67 +129,133 @@ class _ConfirmAndSendNotificationScreenState
     }
   }
 
-  Future<void> sendDataToApi() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final int userLoggedinId = prefs.getInt('user_id') ?? 0;
-    final int flatId = int.parse(widget.visitorData['flatId'] ?? '0');
+  // Future<void> sendDataToApi() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final int userLoggedinId = prefs.getInt('user_id') ?? 0;
+  //   final int flatId = int.parse(widget.visitorData['flatId'] ?? '0');
+  //   // final String inTime = DateFormat('yyyy-MM-ddTHH:mm:ss').format(DateTime.now());
 
-    final List<Map<String, dynamic>> userInfo = await checkUserIds(flatId);
+  //   final List<Map<String, dynamic>> userInfo = await checkUserIds(flatId);
 
-    final url = Uri.parse('${ApiConfig.baseUrl}log-permission');
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'visitorVehicle': vehicleTypeController.text,
-          'visitorName': nameController.text,
-          'visitorContact': contactController.text,
-          'flatNumber': flatNumberController.text,
-          'flatId': widget.visitorData['flatId'],
-          'flatUserId': userLoggedinId,
-          'permit': null,
-          'visitorRC': vehicleNumberController.text,
-          'tagEPC': "0",
-          'tagId': "0",
-          'visitorType': visitorType,
-          'visitorImage': "",
-          'company': companyNameController.text
-        }),
-      );
+  //   final url = Uri.parse('${ApiConfig.baseUrl}log-permission');
+  //   try {
+  //     final response = await http.post(
+  //       url,
+  //       headers: {'Content-Type': 'application/json'},
+  //       body: json.encode({
+  //         'visitorVehicle': vehicleTypeController.text,
+  //         'visitorName': nameController.text,
+  //         'visitorContact': contactController.text,
+  //         'flatNumber': flatNumberController.text,
+  //         'flatId': widget.visitorData['flatId'],
+  //         'flatUserId': userLoggedinId,
+  //         'permit': null,
+  //         'visitorRC': vehicleNumberController.text,
+  //         'tagEPC': "0",
+  //         'tagId': "0",
+  //         'visitorType': visitorType,
+  //         'visitorImage':  '',
+  //         'company': companyNameController.text,
+  //       }),
+  //     );
 
-      if (response.statusCode == 200) {
-        print('Socket connected: ${socket.connected}');
-        if (socket.connected) {
-          // Fetch data from the API and emit it
-          await fetchDataFromApi();
+  //     if (response.statusCode == 200) {
+  //       print('Socket connected: ${socket.connected}');
+  //       if (socket.connected) {
+  //         // Fetch data from the API and emit it
+  //         await fetchDataFromApi();
 
-          // Send notifications to all users
-          for (var user in userInfo) {
-            bool notificationSent = await sendNotifications(
-              fcmToken: user['Token'],
-              title: "New Visitor",
-              body: "A new visitor ${nameController.text} has arrived.",
-            );
-            print(
-                "Notification sent to UserId ${user['UserId']}: $notificationSent");
-          }
+  //         // Send notifications to all users
+  //         for (var user in userInfo) {
+  //           bool notificationSent = await sendNotifications(
+  //             fcmToken: user['Token'],
+  //             title: "New Visitor",
+  //             body: "A new visitor ${nameController.text} has arrived.",
+  //           );
+  //           print(
+  //               "Notification sent to UserId ${user['UserId']}: $notificationSent");
+  //         }
 
-          Navigator.pushNamed(context, '/ringing');
-        } else {
-          print('Socket not connected');
-        }
-      } else {
-        // Handle API error (existing code)
-      }
-    } catch (e) {
-      // Handle network or other errors (existing code)
+  //         Navigator.pushNamed(context, '/ringing');
+  //       } else {
+  //         print('Socket not connected');
+  //       }
+  //     } else {
+  //       // Handle API error (existing code)
+  //     }
+  //   } catch (e) {
+  //     // Handle network or other errors (existing code)
+  //   }
+  // }
+
+Future<void> sendDataToApi() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final int userLoggedinId = prefs.getInt('user_id') ?? 0;
+  final int flatId = int.parse(widget.visitorData['flatId'] ?? '0');
+
+  final List<Map<String, dynamic>> userInfo = await checkUserIds(flatId);
+
+  final url = Uri.parse('${ApiConfig.baseUrl}log-permission');
+  try {
+    final request = http.MultipartRequest('POST', url);
+    request.fields['flatNumber'] = flatNumberController.text;
+    request.fields['visitorName'] = nameController.text;
+    request.fields['flatUserId'] = userLoggedinId.toString();
+    request.fields['visitorVehicle'] = vehicleTypeController.text;
+    request.fields['visitorContact'] = contactController.text;
+    request.fields['permit'] = '1';
+    request.fields['tagId'] = '0';
+    request.fields['tagEPC'] = '0';
+    request.fields['visitorRC'] = vehicleNumberController.text;
+    request.fields['flatId'] = widget.visitorData['flatId'] ?? '0';
+    request.fields['visitorType'] = visitorType;
+    request.fields['company'] = companyNameController.text;
+
+    if (_visitorImageFile != null) {
+      request.files.add(await http.MultipartFile.fromPath('visitorImage', _visitorImageFile!.path));
     }
+
+    // Print the request fields and files for debugging
+    print("Request fields: ${request.fields}");
+    print("Request files: ${request.files}");
+
+    final response = await request.send();
+
+    if (response.statusCode == 200) {
+      await fetchDataFromApi();
+
+      print('Socket connected: ${socket.connected}');
+      if (socket.connected) {
+        await fetchDataFromApi();
+
+        for (var user in userInfo) {
+          bool notificationSent = await sendNotifications(
+            fcmToken: user['Token'],
+            title: "New Visitor",
+            body: "A new visitor ${nameController.text} has arrived.",
+          );
+          print("Notification sent to UserId ${user['UserId']}: $notificationSent");
+        }
+
+        Navigator.pushNamed(context, '/ringing');
+      } else {
+        print('Socket not connected');
+      }
+    } else {
+      print('Failed to post data. Status code: ${response.statusCode}');
+      print('Response body: ${await response.stream.bytesToString()}');
+    }
+  } catch (e) {
+    print('An error occurred: $e');
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final imageHeight = size.height * 0.15; // Adjust height as needed
+  final imageWidth = size.width * 0.4;  
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -207,11 +282,16 @@ class _ConfirmAndSendNotificationScreenState
             fixPadding * 2.0, fixPadding, fixPadding * 2.0, fixPadding * 2.0),
         physics: const BouncingScrollPhysics(),
         children: [
-          // Display visitor image or placeholder if not available
-          Image.asset(
-                  "assets/home/guests.png",
-                  height: size.height * 0.13,
-                ),
+          _visitorImageFile != null
+            ? Image.file(
+                _visitorImageFile!,
+                height: size.height * 0.15,
+                fit: BoxFit.cover,
+              )
+            : Image.asset(
+                "assets/home/guests.png",
+                height: size.height * 0.13,
+              ),
           heightSpace,
           heightSpace,
           heightSpace,

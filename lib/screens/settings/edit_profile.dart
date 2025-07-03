@@ -35,34 +35,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     print("Initial _imageUrl: $_imageUrl");
   }
 
+  void loadUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? userId = prefs.getInt('user_id');
+    blockName = prefs.getString('block_name') ?? '';
+    towerName = prefs.getString('tower_name') ?? '';
 
-void loadUserData() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  int? userId = prefs.getInt('user_id');
-  blockName = prefs.getString('block_name') ?? '';
-  towerName = prefs.getString('tower_name') ?? '';
-
-  final response = await http.get(Uri.parse('${ApiConfig.baseUrl}$userId'));
-  if (response.statusCode == 200) {
-    final userData = json.decode(response.body);
-    print("userData>>>>>>>, $userData");
-    setState(() {
-      nameController.text = userData['userName'] ?? '';
-      emailController.text = userData['userEmail'] ?? '';
-      phoneController.text = userData['userContact'] ?? '';
-      _imageUrl = userData['image'] != null
-          ? '${ApiConfig.baseUrl}${userData['image'].replaceFirst('/opt/soft/parking/parkingApi/uploads/', 'uploads/')}'
-          : null;
-      print("Updated _imageUrl: $_imageUrl");
-    });
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Failed to load user data')),
-    );
+    final response = await http.get(Uri.parse('${ApiConfig.baseUrl}$userId'));
+    if (response.statusCode == 200) {
+      final userData = json.decode(response.body);
+      print("userData>>>>>>>, $userData");
+      setState(() {
+        nameController.text = userData['userName'] ?? '';
+        emailController.text = userData['userEmail'] ?? '';
+        phoneController.text = userData['userContact'] ?? '';
+        _imageUrl = userData['image'] != null
+            ? '${ApiConfig.baseUrl}${userData['image'].replaceFirst('/opt/soft/parking/parkingApi/uploads/', 'uploads/')}'
+            : null;
+        print("Updated _imageUrl: $_imageUrl");
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load user data')),
+      );
+    }
   }
-}
 
-  
   Future<void> updateUserData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final int? userId = prefs.getInt('user_id');
@@ -97,15 +95,12 @@ void loadUserData() async {
         // Update _imageUrl if a new image was uploaded
         if (_image != null) {
           var jsonResponse = json.decode(responseString);
-          String imageUrl = '${ApiConfig.baseUrl}${jsonResponse['image']}';
-          print("Full image URL: $imageUrl");
-          Future.delayed(Duration(seconds: 2), () {
-            setState(() {
-              _imageUrl = imageUrl;
-              _image = null;
-            });
-          });
+          String imageUrl =
+              '${ApiConfig.baseUrl}${jsonResponse['image'].replaceFirst('/opt/soft/parking/parkingApi/uploads/', 'uploads/')}';
+          print("Full image URL to be saved: $imageUrl");
+          await prefs.setString('userImage', imageUrl);
         }
+
         imageCache.clear();
         imageCache.clearLiveImages();
         // // Clear image cache
@@ -511,8 +506,7 @@ void loadUserData() async {
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
-        _imageUrl =
-            null;
+        _imageUrl = null;
       });
     }
   }

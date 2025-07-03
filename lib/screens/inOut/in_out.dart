@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:Park360/localization/localization_const.dart';
 import 'package:Park360/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import '../../api.dart';
 
 class InOutScreen extends StatefulWidget {
   const InOutScreen({super.key});
@@ -12,106 +17,146 @@ class InOutScreen extends StatefulWidget {
 class _InOutScreenState extends State<InOutScreen>
     with SingleTickerProviderStateMixin {
   TabController? tabController;
+  List<Map<String, dynamic>> insideList = [];
+  List<Map<String, dynamic>> waitingList = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
     super.initState();
+    fetchData();
   }
 
-  final insideList = [
-    {
-      "image": "assets/home/guests.png",
-      "name": "Cameron Williamson",
-      "number": "Block A-420",
-      "type": "Guest",
-      "time": "1hr",
-      "Phonenumber": "+91 1234567890"
-    },
-    {
-      "image": "assets/home/food-delivery.png",
-      "name": "Leslie Alexander",
-      "number": "Block B-105",
-      "type": "Delivery ",
-      "time": "5min",
-      "Phonenumber": "+91 1234567890"
-    },
-    {
-      "image": "assets/home/cab.png",
-      "name": "Savannah Nguyen",
-      "number": "Block A-120",
-      "type": "Cab",
-      "time": "Pickup",
-      "Phonenumber": "+91 1234567890"
-    },
-    {
-      "image": "assets/home/maid.png",
-      "name": "Ralph Edwards",
-      "number": "Block B-220",
-      "type": "Service",
-      "time": "2hr",
-      "Phonenumber": "+91 1234567890"
-    },
-    {
-      "image": "assets/home/guests.png",
-      "name": "Darlene Robertson",
-      "number": "Block B-105",
-      "type": "Guest",
-      "time": "3hr",
-      "Phonenumber": "+91 1234567890"
-    },
-    {
-      "image": "assets/home/food-delivery.png",
-      "name": "Devon Lane",
-      "number": "Block A-202",
-      "type": "Delivery",
-      "time": "10min",
-      "Phonenumber": "+91 1234567890"
-    },
-    {
-      "image": "assets/home/cab.png",
-      "name": "Courtney Henry",
-      "number": "Block A-204",
-      "type": "Cab",
-      "time": "Dropup",
-      "Phonenumber": "+91 1234567890"
-    },
-    {
-      "image": "assets/home/guests.png",
-      "name": "Kathryn Murphy",
-      "number": "Block A-420",
-      "type": "Guest",
-      "time": "1hr",
-      "Phonenumber": "+91 1234567890"
-    },
-  ];
+  String extractFilename(String path) {
+    return path.split('/').last;
+  }
 
-  final waitingList = [
-    {
-      "image": "assets/home/guests.png",
-      "name": "Cameron Williamson",
-      "number": "Block A-420",
-      "type": "Guest",
-      "Phonenumber": "+91 1234567890"
-    },
-    {
-      "image": "assets/home/food-delivery.png",
-      "name": "Leslie Alexander",
-      "number": "Block B-105",
-      "type": "Delivery ",
-      "Phonenumber": "+91 1234567890"
-    },
-    {
-      "image": "assets/home/cab.png",
-      "name": "Savannah Nguyen",
-      "number": "Block A-120",
-      "type": "Cab",
-      "Phonenumber": "+91 1234567890"
-    },
-  ];
+  // Future<void> fetchData() async {
+  //   final response = await http.get(Uri.parse('${ApiConfig.baseUrl}api/visitor/get-all-permission'));
+
+  //   if (response.statusCode == 200) {
+  //     List<dynamic> data = json.decode(response.body);
+  //     List<Map<String, dynamic>> inside = [];
+  //     List<Map<String, dynamic>> waiting = [];
+
+  //     for (var item in data) {
+  //       if (item['permit'] == 1) {
+  //         inside.add({
+  //           "id": item['id'],
+  //           "image": "assets/home/guests.png",
+  //           "name": item['visitorName'],
+  //           "number": item['flatNumber'],
+  //           "type": item['visitorType'] ?? "Unknown",
+  //           "Phonenumber": item['visitorContact']
+  //         });
+  //       } else if (item['permit'] == null) {
+  //         waiting.add({
+  //           "image": "assets/home/guests.png",
+  //           "name": item['visitorName'],
+  //           "number": item['flatNumber'],
+  //           "type": item['visitorType'] ?? "Unknown",
+  //           "Phonenumber": item['visitorContact']
+  //         });
+  //       }
+  //     }
+
+  //     setState(() {
+  //       insideList = inside;
+  //       waitingList = waiting;
+  //       isLoading = false;
+  //     });
+  //   } else {
+  //     // Handle error
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //     throw Exception('Failed to load data');
+  //   }
+  // }
+
+Future<void> fetchData() async {
+  final response = await http.get(Uri.parse('${ApiConfig.baseUrl}api/visitor/get-all-permission'));
+
+  if (response.statusCode == 200) {
+    List<dynamic> data = json.decode(response.body);
+    List<Map<String, dynamic>> inside = [];
+    List<Map<String, dynamic>> waiting = [];
+
+    for (var item in data) {
+      String imageUrl = item['visitorImage'] != null 
+          ? 'http://93.127.198.13:2005/uploads/${extractFilename(item['visitorImage'])}'
+          : "assets/home/guests.png";
+          
+      if (item['permit'] == 1 && item['outTime'] == null) {
+        inside.add({
+          "id": item['id'],
+          "image": imageUrl,
+          "name": item['visitorName'],
+          "number": item['flatNumber'],
+          "type": item['visitorType'] ?? "Unknown",
+          "Phonenumber": item['visitorContact']
+        });
+      } else if (item['permit'] == null) {
+        waiting.add({
+          "image": imageUrl,
+          "name": item['visitorName'],
+          "number": item['flatNumber'],
+          "type": item['visitorType'] ?? "Unknown",
+          "Phonenumber": item['visitorContact']
+        });
+      }
+    }
+
+    setState(() {
+      insideList = inside;
+      waitingList = waiting;
+      isLoading = false;
+    });
+  } else {
+    // Handle error
+    setState(() {
+      isLoading = false;
+    });
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<void> updateOutTime(String id) async {
+  final url = Uri.parse('http://93.127.198.13:2005/update-outTime/$id');
+  final outTime = DateTime.now().toIso8601String();
+
+  try {
+    final response = await http.put(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'outTime': outTime,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print('OutTime updated successfully.');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Out time updated successfully!')),
+      );
+      // Refresh the data after updating
+      fetchData();
+    } else {
+      print('Failed to update outTime.');
+    }
+  } catch (e) {
+    print('Error: $e');
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
+    print("Inside list length: ${insideList.length}");
+  print("Waiting list length: ${waitingList.length}");
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -124,20 +169,22 @@ class _InOutScreenState extends State<InOutScreen>
           style: semibold18Black33,
         ),
       ),
-      body: Column(
-        children: [
-          tabBar(),
-          Expanded(
-            child: TabBarView(
-              controller: tabController,
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Column(
               children: [
-                insideListContent(),
-                waitingListContent(),
+                tabBar(),
+                Expanded(
+                  child: TabBarView(
+                    controller: tabController,
+                    children: [
+                      insideListContent(),
+                      waitingListContent(),
+                    ],
+                  ),
+                )
               ],
             ),
-          )
-        ],
-      ),
     );
   }
 
@@ -152,7 +199,7 @@ class _InOutScreenState extends State<InOutScreen>
             index,
             waitingList[index]['image'].toString(),
             "${waitingList[index]['number']} | ${waitingList[index]['type']}",
-            insideList[index]['name'].toString(),
+            waitingList[index]['name'].toString(),
             getTranslate(context, 'in_out.in'),
             greenColor);
       },
@@ -169,7 +216,7 @@ class _InOutScreenState extends State<InOutScreen>
         return listContent(
             index,
             insideList[index]['image'].toString(),
-            "${insideList[index]['number']} | ${insideList[index]['type']} | ${insideList[index]['time']}",
+            "${insideList[index]['number']} | ${insideList[index]['type']}",
             insideList[index]['name'].toString(),
             getTranslate(context, 'in_out.out'),
             redColor);
@@ -177,79 +224,98 @@ class _InOutScreenState extends State<InOutScreen>
     );
   }
 
-  listContent(int index, image, text, name, boxText, boxColor) {
-    return Container(
-      padding: const EdgeInsets.all(fixPadding * 0.8),
-      margin: const EdgeInsets.symmetric(vertical: fixPadding),
-      decoration: BoxDecoration(
-        color: whiteColor,
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
-          BoxShadow(
-            color: shadowColor.withOpacity(0.2),
-            blurRadius: 6.0,
-          )
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            height: 58,
-            width: 58,
-            padding: const EdgeInsets.all(fixPadding * 0.7),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF5F5F5),
-              borderRadius: BorderRadius.circular(5.0),
-              boxShadow: [
-                BoxShadow(
-                  color: shadowColor.withOpacity(0.2),
-                  blurRadius: 6.0,
+ listContent(int index, image, text, name, boxText, boxColor) {
+   if (index >= insideList.length) {
+    print('Index $index is out of bounds for insideList');
+    return Container();
+   }
+  return Container(
+    padding: const EdgeInsets.all(fixPadding * 0.8),
+    margin: const EdgeInsets.symmetric(vertical: fixPadding),
+    decoration: BoxDecoration(
+      color: whiteColor,
+      borderRadius: BorderRadius.circular(10.0),
+      boxShadow: [
+        BoxShadow(
+          color: shadowColor.withOpacity(0.2),
+          blurRadius: 6.0,
+        )
+      ],
+    ),
+    child: Row(
+      children: [
+        Container(
+          height: 58,
+          width: 58,
+          padding: const EdgeInsets.all(fixPadding * 0.7),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF5F5F5),
+            borderRadius: BorderRadius.circular(5.0),
+            boxShadow: [
+              BoxShadow(
+                color: shadowColor.withOpacity(0.2),
+                blurRadius: 6.0,
+              )
+            ],
+          ),
+          alignment: Alignment.center,
+          child: image.startsWith('http')
+              ? Image.network(
+                  image,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      "assets/home/guests.png",
+                      fit: BoxFit.cover,
+                    );
+                  },
                 )
-              ],
-            ),
-            alignment: Alignment.center,
-            child: Image.asset(
-              image,
-              fit: BoxFit.cover,
-            ),
-          ),
-          widthSpace,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: semibold15Black33,
-                  overflow: TextOverflow.ellipsis,
+              : Image.asset(
+                  image,
+                  fit: BoxFit.cover,
                 ),
-                heightBox(3.0),
-                Text(
-                  text,
-                  style: medium14Grey,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                heightBox(3.0),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.call,
-                      color: blueColor,
-                      size: 15,
+        ),
+        widthSpace,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                name,
+                style: semibold15Black33,
+                overflow: TextOverflow.ellipsis,
+              ),
+              heightBox(3.0),
+              Text(
+                text,
+                style: medium14Grey,
+                overflow: TextOverflow.ellipsis,
+              ),
+              heightBox(3.0),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.call,
+                    color: blueColor,
+                    size: 15,
+                  ),
+                  Expanded(
+                    child: Text(
+                      insideList[index]['Phonenumber'].toString(),
+                      style: medium14Black33,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    Expanded(
-                      child: Text(
-                        insideList[index]['Phonenumber'].toString(),
-                        style: medium14Black33,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
-          Container(
+        ),
+        GestureDetector(
+          onTap: () async {
+            await updateOutTime(insideList[index]['id'].toString());
+          },
+          child: Container(
             width: 60,
             padding: const EdgeInsets.all(fixPadding * 0.7),
             decoration: BoxDecoration(
@@ -263,10 +329,11 @@ class _InOutScreenState extends State<InOutScreen>
               overflow: TextOverflow.ellipsis,
             ),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 
   tabBar() {
     return Stack(
@@ -302,4 +369,5 @@ class _InOutScreenState extends State<InOutScreen>
       ],
     );
   }
+
 }

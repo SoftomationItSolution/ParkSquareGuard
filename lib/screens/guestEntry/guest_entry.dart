@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:Park360/localization/localization_const.dart';
 import 'package:Park360/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
-
 
 class GuestEntryScreen extends StatefulWidget {
   const GuestEntryScreen({super.key});
@@ -16,11 +18,12 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
   bool _isListening = false;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _contactController = TextEditingController();
-  // final TextEditingController _vehicleTypeController = TextEditingController();
-  final TextEditingController _vehicleNumberController = TextEditingController();
+  final TextEditingController _vehicleNumberController =
+      TextEditingController();
   final TextEditingController _visitorRcController = TextEditingController();
   String? _selectedVehicleType;
   TextEditingController? _activeController;
+  File? _imageFile;
 
   @override
   void initState() {
@@ -68,7 +71,16 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
     }
   }
 
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
 
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,10 +111,11 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
             fixPadding * 2.0, fixPadding, fixPadding * 2.0, fixPadding * 2.0),
         physics: const BouncingScrollPhysics(),
         children: [
-          Image.asset(
-            "assets/home/guests.png",
-            height: size.height * 0.13,
-          ),
+          // Image.asset(
+          //   "assets/home/guests.png",
+          //   height: size.height * 0.13,
+          // ),
+          cameraButton(),
           heightSpace,
           heightSpace,
           heightSpace,
@@ -125,6 +138,29 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
       bottomNavigationBar: continueButton(),
     );
   }
+
+  Widget cameraButton() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (_imageFile != null)
+          Image.file(
+            _imageFile!,
+            height: 150,
+          )
+        else
+          Image.asset(
+            "assets/home/guests.png",
+            height: 150,
+          ),
+        IconButton(
+          icon: const Icon(Icons.camera_alt),
+          onPressed: _pickImage,
+        ),
+      ],
+    );
+  }
+
 
   visitorRCField() {
     return Column(
@@ -173,7 +209,6 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
     );
   }
 
-
   vehicleTypeField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,7 +248,8 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
                 _selectedVehicleType = newValue;
               });
             },
-            hint: Text(getTranslate(context, 'Enter Vehicle Type'), style: medium16Grey),
+            hint: Text(getTranslate(context, 'Enter Vehicle Type'),
+                style: medium16Grey),
           ),
         ),
       ],
@@ -272,7 +308,7 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: GestureDetector(
-        onTap: () {
+        onTap: () async {
           Navigator.pushNamed(
             context,
             '/selectEntryAddress',
@@ -281,9 +317,9 @@ class _GuestEntryScreenState extends State<GuestEntryScreen> {
               'visitorContact': _contactController.text,
               'visitorVehicleType': _selectedVehicleType,
               'visitorVehicleNumber': _vehicleNumberController.text,
-              'visitorRC':_visitorRcController.text,
+              'visitorRC': _visitorRcController.text,
               'visitorType': 'Guest',
-
+              'visitorImage': _imageFile?.path ?? '',
             },
           );
         },

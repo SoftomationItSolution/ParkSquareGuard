@@ -23,8 +23,8 @@ class _BottomBarState extends State<BottomBar> {
 
   final pages = const [
     HomeScreen(),
-    // InOutScreen(),
-    // MessagesScreen(),
+    InOutScreen(),
+    MessagesScreen(),
     SettingsScreen(),
   ];
   DateTime? backPressTime;
@@ -56,13 +56,18 @@ class _BottomBarState extends State<BottomBar> {
       selectedLabelStyle: semibold14Primary,
       unselectedLabelStyle: semibold14GreyB4,
       currentIndex: selectedIndex,
+      // onTap: (index) {
+      //   setState(() {
+      //     if (index == 0) {
+      //       selectedIndex = 0; // HomeScreen
+      //     } else if (index == 1) {
+      //       selectedIndex = 1; // SettingsScreen
+      //     }
+      //   });
+      // },
       onTap: (index) {
         setState(() {
-          if (index == 0) {
-            selectedIndex = 0; // HomeScreen
-          } else if (index == 1) {
-            selectedIndex = 1; // SettingsScreen
-          }
+          selectedIndex = index;
         });
       },
       backgroundColor: whiteColor,
@@ -78,17 +83,17 @@ class _BottomBarState extends State<BottomBar> {
               color: primaryColor,
             ),
             label: getTranslate(context, 'bottom_bar.home')),
-        // BottomNavigationBarItem(
-        //     icon: const Icon(
-        //       CupertinoIcons.arrow_up_arrow_down,
-        //       size: 22,
-        //     ),
-        //     label: getTranslate(context, 'bottom_bar.in_out')),
-        // BottomNavigationBarItem(
-        //     icon: const Icon(
-        //       Icons.chat_bubble_outline,
-        //     ),
-        //     label: getTranslate(context, 'bottom_bar.messages')),
+        BottomNavigationBarItem(
+            icon: const Icon(
+              CupertinoIcons.arrow_up_arrow_down,
+              size: 22,
+            ),
+            label: getTranslate(context, 'bottom_bar.in_out')),
+        BottomNavigationBarItem(
+            icon: const Icon(
+              Icons.chat_bubble_outline,
+            ),
+            label: getTranslate(context, 'bottom_bar.messages')),
         BottomNavigationBarItem(
             icon: const Icon(
               CupertinoIcons.gear,

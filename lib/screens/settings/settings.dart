@@ -11,32 +11,38 @@ class SettingsScreen extends StatefulWidget {
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
-  
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-       Future<void> _logout() async {
+  Future<void> _logout() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear(); // Clear all user data from SharedPreferences
-    Navigator.pushReplacementNamed(context, '/login'); // Navigate to login screen
+    Navigator.pushReplacementNamed(
+        context, '/login'); // Navigate to login screen
   }
-    String userName = '';
+
+  String userName = '';
   String blockName = '';
   String towerName = '';
+  String userImage = '';
 
   @override
   void initState() {
     super.initState();
     loadUserData();
   }
+
   Future<void> loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       userName = prefs.getString('userName') ?? '';
       blockName = prefs.getString('block_name') ?? '';
       towerName = prefs.getString('tower_name') ?? '';
+      userImage = prefs.getString('userImage') ?? '';
     });
+    print("Loaded userImage: $userImage");
   }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -315,7 +321,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  guardDetail() {
+ guardDetail() {
     return Container(
       padding: const EdgeInsets.symmetric(
           horizontal: fixPadding, vertical: fixPadding * 1.5),
@@ -346,9 +352,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   blurRadius: 6.0,
                 )
               ],
-              image: const DecorationImage(
-                image: AssetImage("assets/settings/profileImage.png"),
-              ),
+              image: userImage.isNotEmpty
+                  ? DecorationImage(
+                      image: NetworkImage(userImage),
+                      fit: BoxFit.cover,
+                    )
+                  : const DecorationImage(
+                      image: AssetImage("assets/settings/profileImage.png"),
+                    ),
+              
             ),
           ),
           widthSpace,

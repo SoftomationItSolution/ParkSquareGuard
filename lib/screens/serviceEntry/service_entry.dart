@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:Park360/localization/localization_const.dart';
 import 'package:Park360/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 
@@ -19,6 +22,8 @@ class _ServiceEntryState extends State<ServiceEntry> {
   // final TextEditingController _vehicleTypeController = TextEditingController();
   // final TextEditingController _vehicleNumberController = TextEditingController();
   TextEditingController? _activeController;
+  File? _imageFile;
+
 
     @override
   void initState() {
@@ -66,6 +71,16 @@ class _ServiceEntryState extends State<ServiceEntry> {
     }
   }
 
+ Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
 
 
   @override
@@ -97,10 +112,11 @@ class _ServiceEntryState extends State<ServiceEntry> {
             fixPadding * 2.0, fixPadding, fixPadding * 2.0, fixPadding * 2.0),
         physics: const BouncingScrollPhysics(),
         children: [
-          Image.asset(
-            "assets/home/maid.png",
-            height: size.height * 0.13,
-          ),
+          // Image.asset(
+          //   "assets/home/maid.png",
+          //   height: size.height * 0.13,
+          // ),
+          cameraButton(),
           heightSpace,
           heightSpace,
           heightSpace,
@@ -118,6 +134,28 @@ class _ServiceEntryState extends State<ServiceEntry> {
         ],
       ),
       bottomNavigationBar: continueButton(),
+    );
+  }
+
+Widget cameraButton() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (_imageFile != null)
+          Image.file(
+            _imageFile!,
+            height: 150,
+          )
+        else
+          Image.asset(
+            "assets/home/guests.png",
+            height: 150,
+          ),
+        IconButton(
+          icon: const Icon(Icons.camera_alt),
+          onPressed: _pickImage,
+        ),
+      ],
     );
   }
 
@@ -139,7 +177,7 @@ class _ServiceEntryState extends State<ServiceEntry> {
               'visitorVehicleType': "0",
               'visitorVehicleNumber': "0",
               'visitorType': 'Service',
-
+              'visitorImage': _imageFile?.path ?? '',
             },
           );
         },

@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:Park360/localization/localization_const.dart';
 import 'package:Park360/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 
@@ -18,6 +21,8 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
   final TextEditingController _contactController = TextEditingController();
   final TextEditingController _companyNameController = TextEditingController();
   TextEditingController? _activeController;
+  File? _imageFile;
+
 
   @override
   void initState() {
@@ -65,6 +70,16 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
     }
   }
 
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,10 +110,11 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
             fixPadding * 2.0, fixPadding, fixPadding * 2.0, fixPadding * 2.0),
         physics: const BouncingScrollPhysics(),
         children: [
-          Image.asset(
-            "assets/home/food-delivery.png",
-            height: size.height * 0.13,
-          ),
+          // Image.asset(
+          //   "assets/home/food-delivery.png",
+          //   height: size.height * 0.13,
+          // ),
+          cameraButton(),
           heightSpace,
           heightSpace,
           heightSpace,
@@ -119,6 +135,28 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
     );
   }
 
+  Widget cameraButton() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (_imageFile != null)
+          Image.file(
+            _imageFile!,
+            height: 150,
+          )
+        else
+          Image.asset(
+            "assets/home/guests.png",
+            height: 150,
+          ),
+        IconButton(
+          icon: const Icon(Icons.camera_alt),
+          onPressed: _pickImage,
+        ),
+      ],
+    );
+  }
+
   Widget continueButton() {
     return Padding(
       padding:
@@ -133,6 +171,8 @@ class _DeliveryEntryScreenState extends State<DeliveryEntryScreen> {
               'visitorContact': _contactController.text,
               'company': _companyNameController.text,
               'visitorType': 'delivery',
+              'visitorImage': _imageFile?.path ?? '',
+
             },
           );
         },

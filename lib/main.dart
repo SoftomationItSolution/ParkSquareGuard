@@ -14,7 +14,7 @@ import 'api/firebase_api.dart';
 import 'firebase_options.dart';
 import 'localization/localization.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FirebaseApi().initNotification();
@@ -126,21 +126,22 @@ class _MyAppState extends State<MyApp> {
             type: PageTransitionType.rightToLeft,
             settings: settings);
       case '/bottombar':
-  return PageTransition(
-      child: BottomBar(userData: settings.arguments as Map<String, dynamic>?),
-      type: PageTransitionType.rightToLeft,
-      settings: settings);
+        return PageTransition(
+            child: BottomBar(
+                userData: settings.arguments as Map<String, dynamic>?),
+            type: PageTransitionType.rightToLeft,
+            settings: settings);
       case '/home':
         return PageTransition(
             child: const HomeScreen(),
             type: PageTransitionType.rightToLeft,
             settings: settings);
       case '/confirm':
-  return PageTransition(
-    child: ConfirmScreen(guestData: settings.arguments as Map<String, dynamic>),
-    type: PageTransitionType.rightToLeft,
-    settings: settings
-  );
+        return PageTransition(
+            child: ConfirmScreen(
+                entryData: settings.arguments as Map<String, dynamic>),
+            type: PageTransitionType.rightToLeft,
+            settings: settings);
       case '/guestEntry':
         return PageTransition(
             child: const GuestEntryScreen(),
@@ -246,28 +247,29 @@ class _MyAppState extends State<MyApp> {
             type: PageTransitionType.rightToLeft,
             settings: settings);
 
-       case '/selectEntryAddress':
-      return PageTransition(
-        child: SelectEntryAddressScreen(
-          visitorData: (settings.arguments as Map?)?.map(
-                (key, value) => MapEntry(key as String, value as String),
-              ) ?? {},
-        ),
-        type: PageTransitionType.rightToLeft,
-        settings: settings,
-      );
-    case '/confirmAndSendNotification':
-      return PageTransition(
-        child: ConfirmAndSendNotificationScreen(
-          visitorData: (settings.arguments as Map?)?.map(
-                (key, value) => MapEntry(key as String, value as String),
-              ) ?? {},
-        ),
-        type: PageTransitionType.rightToLeft,
-        settings: settings,
-      );
+      case '/selectEntryAddress':
+        return PageTransition(
+          child: SelectEntryAddressScreen(
+            visitorData: (settings.arguments as Map?)?.map(
+                  (key, value) => MapEntry(key as String, value as String),
+                ) ??
+                {},
+          ),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
+        );
+      case '/confirmAndSendNotification':
+        return PageTransition(
+          child: ConfirmAndSendNotificationScreen(
+            visitorData: (settings.arguments as Map?)?.map(
+                  (key, value) => MapEntry(key as String, value as String),
+                ) ??
+                {},
+          ),
+          type: PageTransitionType.rightToLeft,
+          settings: settings,
+        );
 
-            
       default:
         return null;
     }
